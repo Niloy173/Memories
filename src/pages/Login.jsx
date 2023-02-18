@@ -1,7 +1,40 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import CheckAuthError from '../util/AuthErrorVerify';
 
 const Login = () => {
+
+  const InitialState = { Luser: "", Lpass: ""}
+  const [login, setLogin] = useState(InitialState);
+  const [isSubmiting, setIsSubmiting] = useState(false);
+  const [error, setError] = useState({});
+  const navigate = useNavigate();
+
+  const handleState = (e) => {
+    const {name, value} = e.target;
+    setLogin({...login, [name]: value});
+
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setIsSubmiting(prev => !prev);
+
+    const error = CheckAuthError(login, "login");
+
+    console.log(error);
+
+    if(Object.keys(error).length > 0){
+      setIsSubmiting(prev => !prev);
+      setError(error);
+    }else{
+      setError({});
+      setIsSubmiting(prev => !prev);
+      navigate("/");
+    }
+  }
+
   return (
     
     <div className="login form__container">
@@ -12,19 +45,25 @@ const Login = () => {
       <div className="form">
       
         <h3 className="text-center">Login</h3>
-        <form>
+        <form onSubmit={handleSubmit}>
 
         <div className="input__grp">
-          <label htmlFor='user'>Username or Email</label>
-          <input type="text" placeholder='write your username or email' name='user' id='user' /> 
+          <label htmlFor='user'>Username or Email {error.user && <span className='form__error__sign'> *</span>} </label>
+          <input type="text" placeholder='write your username or email' name='Luser' id='user'
+          value={login.Luser} onChange={handleState} /> 
+          {error.user && <p className='form__error__msg'>{error.user}</p>}
         </div>
 
       <div className="input__grp">
-        <label htmlFor='password'>Password</label>
-        <input type="password" placeholder='write your password' name='password' id='password' /> 
+        <label htmlFor='password'>Password {error.pass && <span className='form__error__sign'>  *</span>}</label>
+        <input type="password" placeholder='write your password' name='Lpass' id='password'
+         value={login.Lpass} onChange={handleState} />
+        {error.pass && <p className='form__error__msg'>{error.pass}</p>} 
       </div>
 
-      <div className="submit-btn btn">Submit</div>
+      <button type='submit' disabled={isSubmiting} className="submit-btn btn">
+        {isSubmiting ? 'Checking...' : 'Submit' }
+      </button>
         
         </form>
 
