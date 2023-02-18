@@ -70,13 +70,17 @@ const Card = ({img, update=false}) => {
     const error = {};
     
 
-    if(typeof(updateState.cardImage) !== typeof(CardInformation.cardImage) && updateState.cardImage.size > (3*1024*1024))
+    if(updateState.cardImage.size > (3*1024*1024))
     {
       error.image = "Image must be less then 3MB";
     }
 
-    if(updateState.cardTitle !== CardInformation.cardTitle && updateState.cardTitle.length >= 26){
+    if(updateState.cardTitle.length === 0){
       error.title = "Title length exceeded";
+    }
+
+    if(updateState.cardDesc.length === 0){
+      error.desc = "Title length exceeded";
     }
 
 
@@ -97,7 +101,7 @@ const Card = ({img, update=false}) => {
       }
 
       setIsSubmiting(prev => !prev);
-      setError({});
+     
       setUpdateStatus(prev => !prev);
 
     }
@@ -167,7 +171,7 @@ const Card = ({img, update=false}) => {
                     :<img src={URL.createObjectURL(updateState.cardImage)} alt="card__image"  />
 
                   }
-                    {error.image && <p className="error__msg absolute">{error.image}</p>}
+                    {error.image && <p className="form__error__msg absolute">{error.image}</p>}
                     <div className="update__modal__image">
                       
                       <label  htmlFor="upload">Upload an image { error.image && <span className='error__sign'>  *</span>}</label>
@@ -185,16 +189,17 @@ const Card = ({img, update=false}) => {
                 
                 <div className="update__modal__data">
                 
-                  <label htmlFor="title">Title (Max 25 characters) { error.title && <span className='error__sign'>  *</span>}</label>
+                  <label htmlFor="title">Title  { error.title && <span className='error__sign'>  *</span>}</label>
                   <input type="text"  id='title' name='cardTitle' value={updateState.cardTitle} onChange={ChangeUpdate} />
                   {error.title && <p className='error__msg'>{error.title}</p>}
                 </div>
 
                 <div className="update__modal__data">
                 
-                  <label htmlFor="description">Description </label>
+                  <label htmlFor="description">Description { error.desc && <span className='error__sign'>  *</span>}</label>
                   <textarea  id='description' name='cardDesc'
                   value={updateState.cardDesc} onChange={ChangeUpdate} />
+                  {error.desc && <p className='error__msg'>{error.desc}</p>}
                   
                 
                 </div>

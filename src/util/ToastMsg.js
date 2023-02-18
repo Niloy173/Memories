@@ -1,10 +1,9 @@
 import { toast } from 'react-toastify';
 
+
 const ToastMsg = (msg, flag,position="TOP_RIGHT") => {
   
-  console.log(msg)
-
-    if(flag){
+     if(flag){
       return toast.success(msg,{
         position: toast.POSITION[position]
       });

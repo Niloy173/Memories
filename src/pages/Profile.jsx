@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 
 /* icons */
 import { FaUserPlus } from 'react-icons/fa';
@@ -95,7 +94,6 @@ const Profile = () => {
 
   return (
 
-    <React.Fragment>
    
     <div className="profile__section container">
     
@@ -242,9 +240,7 @@ const Profile = () => {
 
     </div>
 
-    <ToastContainer/>
 
-  </React.Fragment>
 
   )
 }

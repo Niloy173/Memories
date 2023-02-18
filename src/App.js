@@ -14,6 +14,7 @@ import Profile from './pages/Profile';
 import Register from './pages/Register';
 
 // toast css
+import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -35,6 +36,8 @@ const App = () => {
 
         <Route path='*' element={<PageNotFound status={"404"} message={"Page Not Found"} />} />
       </Routes>
+
+      <ToastContainer/>
     </div>
   )
 }
