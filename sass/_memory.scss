@@ -525,6 +525,10 @@
       width: 100%;
     }
 
+    @include b.breakpoint_max(small) {
+      height: 3rem;
+    }
+
     &:hover {
       background: v.$color-5;
     }

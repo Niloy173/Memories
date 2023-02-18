@@ -1,0 +1,157 @@
+@use "variables" as v;
+@use "breakpoints" as b;
+/* card skeleton */
+.card__skeleton {
+  background: v.$color-2;
+  color: v.$color-white;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  animation: skeleton 1s ease infinite alternate;
+
+  &__cover {
+    display: block;
+    width: 100%;
+    height: 250px;
+    background: v.$color-4;
+  }
+
+  &__details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    &_t {
+      padding: 0.87rem 0;
+      width: 50%;
+      border: 1px solid v.$border-1;
+      background: v.$color-4;
+      margin: 0.7rem 0;
+    }
+
+    &_d {
+      width: 90%;
+      border: 1px solid v.$border-1;
+      padding: 1.24rem 0;
+      background: v.$color-4;
+    }
+
+    &_b {
+      width: 70%;
+      border: 1px solid v.$color-6;
+      background: v.$color-4;
+      padding: 1.56rem 0.75rem;
+      background: #1d2a35;
+      margin: 1rem 0;
+    }
+  }
+}
+
+@keyframes skeleton {
+  to {
+    opacity: 0.5;
+  }
+}
+
+/* profile skeleton */
+.profile__skeleton {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: v.$color-primary;
+  animation: profile 1s ease infinite alternate;
+
+  &__cover {
+    width: 40%;
+    max-width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: v.$color-2;
+    border: 1px solid v.$color-1;
+  }
+
+  &__details {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0.6rem 0;
+
+    @include b.breakpoint_max(small) {
+      display: none;
+    }
+  }
+}
+
+.profile__skname {
+  padding: 0.57rem 0;
+  width: 90%;
+  border: 1px solid v.$border-1;
+  background: v.$color-4;
+  margin-bottom: 4px;
+}
+.profile__skAct {
+  padding: 0.37rem 0;
+  width: 60%;
+  border: 1px solid v.$border-1;
+  background: v.$color-4;
+  margin-top: 5px;
+}
+
+@keyframes profile {
+  to {
+    opacity: 0.5;
+  }
+}
+
+/* custom */
+
+.custom__skeleton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 2rem 0;
+}
+
+.parent__ball {
+  display: flex;
+}
+
+.child__ball {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: v.$color-4;
+  margin-right: 10px;
+  animation: ball 0.5s ease infinite alternate;
+}
+
+.ball2 {
+  animation-delay: 0.2s;
+}
+.ball3 {
+  animation-delay: 0.3s;
+}
+
+@keyframes ball {
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+.custom__txt {
+  font-weight: 200;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+}

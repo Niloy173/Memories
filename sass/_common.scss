@@ -115,13 +115,24 @@ body {
   margin: 0.9rem auto;
 }
 
-.error__sign {
+.form__error__sign {
   font-size: 1.12rem;
+  color: v.$color-primary;
+}
+
+.form__error__msg {
+  color: v.$color-primary;
+  font-size: 0.8999rem;
+}
+
+.error__sign {
+  font-size: 0.866rem;
   color: red;
 }
 
 .error__msg {
   color: red;
+  font-size: 0.866rem;
 }
 
 .disabled {

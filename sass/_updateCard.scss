@@ -34,7 +34,6 @@
 
   &__details {
     width: 50%;
-    padding: 1rem 0;
 
     @include b.breakpoint_max(medium) {
       padding: 0;
