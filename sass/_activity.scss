@@ -1,0 +1,109 @@
+@use "variables" as v;
+@use "breakpoints" as b;
+
+.activity__card__container {
+  width: 100%;
+  margin: 0 auto;
+  // min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  // background: #ededed;
+  align-items: center;
+}
+
+.pages {
+  width: 80%;
+  padding-block: min(5vh, 10rem);
+  display: flex;
+  border: 1px solid #0000;
+  justify-content: flex-start;
+  margin: 0 auto;
+
+  @include b.breakpoint_max(large) {
+    width: 90%;
+  }
+
+  @include b.breakpoint_max(medium) {
+    width: 80%;
+  }
+
+  @include b.breakpoint_max(small) {
+    width: 80%;
+  }
+
+  &__icon {
+    cursor: pointer;
+  }
+
+  &__left {
+    width: auto;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    float: left;
+    display: none;
+    place-content: center;
+
+    // @include b.breakpoint_max(small) {
+    //   display: none;
+    // }
+
+    &:hover {
+      background: v.$color-2;
+      color: v.$color-light;
+    }
+  }
+
+  &__right {
+    width: auto;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    float: right;
+    display: none;
+    place-content: center;
+
+    &:hover {
+      background: v.$color-2;
+      color: v.$color-light;
+    }
+    // @include b.breakpoint_max(small) {
+    //   display: none;
+    // }
+  }
+
+  &__center {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    white-space: nowrap;
+    transition: all 400ms ease;
+
+    @include b.breakpoint_min(large) {
+      justify-content: center;
+    }
+
+    span {
+      width: 48px;
+      display: inline-block;
+      text-align: center;
+      padding: 8px 5px;
+      background: #ededed;
+      border: 0.5px groove v.$color-4;
+      cursor: pointer;
+
+      &:hover {
+        background: v.$color-2;
+        color: v.$color-light;
+      }
+    }
+  }
+}
+
+.pages__center span.active {
+  background: v.$color-4;
+  color: v.$color-6;
+}

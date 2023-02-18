@@ -1,0 +1,293 @@
+@use "variables" as v;
+@use "breakpoints" as b;
+
+.profile__section {
+  position: relative;
+}
+
+.about__section {
+  display: grid;
+  grid-template-columns: 26rem auto;
+  grid-gap: 3rem;
+  position: relative;
+  margin: 10rem 0;
+
+  @include b.breakpoint_max(large) {
+    grid-template-columns: 1fr;
+    grid-gap: 4rem;
+    margin-top: 15rem;
+  }
+
+  @include b.breakpoint_max(small) {
+    margin: 20rem 0;
+    grid-gap: 3rem;
+  }
+}
+
+.about__left {
+  position: relative;
+
+  @include b.breakpoint_max(large) {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  @include b.breakpoint_max(medium) {
+    width: 60%;
+  }
+
+  @include b.breakpoint_max(small) {
+    width: 90%;
+  }
+}
+
+.about__title {
+  position: absolute;
+  top: -7rem;
+  z-index: 1;
+  font-size: 3rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+
+  @include b.breakpoint_max(large) {
+    left: 15%;
+    top: -6rem;
+  }
+
+  @include b.breakpoint_max(small) {
+    left: 2%;
+  }
+}
+
+.about__title span {
+  color: v.$color-primary;
+  text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.profile__change {
+  height: 3rem;
+  width: 100%;
+  background: v.$color-7;
+  border-radius: calc(3.5rem / 2);
+  border: 1px solid v.$color-3;
+  box-shadow: inset 0 1rem 1rem rgba(148, 39, 39, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: v.$color-primary;
+  font-weight: 700;
+  position: absolute;
+  bottom: -4rem;
+  right: -4rem;
+
+  @include b.breakpoint_max(large) {
+    right: 0rem;
+  }
+
+  &__icon {
+    font-size: 1.22rem;
+    cursor: pointer;
+  }
+
+  label {
+    margin: 0 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+  }
+
+  input {
+    display: none;
+  }
+}
+
+.about__image {
+  position: relative;
+  border-left: 1px groove rgba(0, 0, 0, 0.2);
+
+  @include b.breakpoint_max(large) {
+    border: none;
+  }
+}
+
+.about__image img {
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about__image-bg {
+  width: 16rem;
+  height: 20rem;
+  position: absolute;
+  bottom: 0rem;
+  left: 2.8rem;
+  background: v.$color-primary-variant;
+
+  @include b.breakpoint_max(large) {
+    display: none;
+  }
+}
+.about__image-lg {
+  position: relative;
+  bottom: 1rem;
+  left: 4rem;
+  // height: 500px;
+  filter: saturate(0) brightness(0.3);
+  transition: v.$transition;
+
+  @include b.breakpoint_max(large) {
+    filter: saturate(1) brightness(1);
+    left: 0;
+    top: 0;
+    position: initial;
+  }
+}
+
+.about__image-sm {
+  width: 21rem;
+  height: 21rem;
+  position: absolute;
+  top: 2rem;
+  left: 10rem;
+  overflow: hidden;
+  // box-shadow: 2rem 2rem 2rem rgba(0, 0, 0, 0.2);
+  transition: var(--transition);
+
+  @include b.breakpoint_max(large) {
+    display: none;
+  }
+}
+
+.about__image:hover .about__image-sm {
+  opacity: 0;
+}
+
+.about__image:hover .about__image-lg {
+  filter: saturate(1) brightness(1);
+  box-shadow: 0 3rem 3rem rgba(0, 0, 0, 0.2);
+  border: 1rem solid v.$color-primary-variant;
+  left: 2.8rem;
+  bottom: 0rem;
+
+  @include b.breakpoint_max(large) {
+    border: none;
+  }
+}
+
+.about__right {
+  margin-left: 3rem;
+  padding-left: 3rem;
+
+  @include b.breakpoint_max(large) {
+    // border: 1px solid #000;
+    padding: 0rem 2rem;
+    width: 80%;
+    margin: 3rem auto;
+  }
+
+  @include b.breakpoint_max(small) {
+    width: 100%;
+    padding: 0rem 2rem;
+  }
+}
+
+.about__right .submit-btn {
+  text-align: center;
+}
+.about__right .cancel-btn {
+  border-radius: 0.4rem;
+  display: inline-block;
+  padding: 0.75rem 1.2rem;
+  transition: all 400ms ease;
+  width: 100%;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.899px;
+  background: v.$color-light;
+  border: 1px solid v.$color-black;
+  color: v.$color-black;
+  margin-top: 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    color: v.$color-white;
+    background: v.$color-5;
+    border: none;
+  }
+}
+
+.about__right__username,
+.about__right__email,
+.about__right__password {
+  position: relative;
+}
+
+.profile__icon {
+  position: absolute;
+  top: 2.8rem;
+  right: 10px;
+  cursor: pointer;
+}
+
+.profile__activites {
+  display: flex;
+  gap: 1rem;
+  position: absolute;
+  right: 0;
+
+  @include b.breakpoint_max(large) {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    right: auto;
+  }
+
+  @include b.breakpoint_max(small) {
+    flex-direction: column;
+    margin-top: 3rem;
+  }
+
+  &__common {
+    height: 3.5rem;
+    width: 18rem;
+    background: v.$color-7;
+    border-radius: calc(3.5rem / 2);
+    border: 1px solid v.$color-3;
+    box-shadow: inset 0 1rem 1rem rgb(0 0 0 / 30%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: v.$color-primary;
+    font-weight: 700;
+    transition: all 400ms ease-in-out;
+
+    &:hover {
+      transform: translateY(-1rem);
+    }
+
+    @include b.breakpoint_max(small) {
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+}
+
+.profile__activites__common .icon {
+  font-size: 1.22rem;
+}
+
+.profile__activites__common span {
+  margin: 0 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+.file__error {
+  position: absolute;
+  bottom: -6rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

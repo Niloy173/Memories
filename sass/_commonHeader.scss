@@ -1,0 +1,62 @@
+@use "variables" as v;
+@use "breakpoints" as b;
+
+.common__header {
+  margin: 3rem auto;
+
+  @include b.breakpoint_min(medium) {
+    margin: 2rem auto;
+  }
+
+  &__home {
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 2rem 0;
+    font-weight: 600;
+    color: v.$color-orange;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 45px;
+      height: 5px;
+      border: solid 3px v.$color-7;
+      border-color: v.$color-7 transparent transparent transparent;
+      border-radius: 50%/100% 20px;
+      margin: 0 auto;
+    }
+  }
+
+  h3 {
+    text-align: center;
+    text-shadow: 0px 5px 8px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+  }
+  p {
+    width: 90%;
+
+    @include b.breakpoint_min(medium) {
+      width: 65%;
+    }
+  }
+}
+
+.common__header h3 span {
+  color: v.$color-primary;
+}
+
+.line__border {
+  margin: 0 auto;
+  width: 400px;
+  height: 60px;
+  border: solid 10px v.$color-7;
+  border-color: v.$color-7 transparent transparent transparent;
+  /* border-radius: 50%/100px 100px 0 0; */
+  border-radius: 180%/200px 70px 0px 90px;
+
+  @include b.breakpoint_max(small) {
+    width: 300px;
+    height: 0px;
+  }
+}

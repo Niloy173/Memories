@@ -1,0 +1,556 @@
+@use "variables" as v;
+@use "breakpoints" as b;
+
+.main__memory {
+  padding: 0;
+}
+
+.main__story {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  @include b.breakpoint_max(large) {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__cover {
+    flex: 8 1;
+    height: fit-content;
+
+    @include b.breakpoint_max(large) {
+      display: flex;
+      margin: 0 1.5rem;
+    }
+
+    @include b.breakpoint_max(small) {
+      margin: 0 0.5rem;
+    }
+  }
+
+  &__author {
+    flex: 4 1;
+    height: fit-content;
+    background: v.$color-5;
+    color: v.$color-white;
+    top: 10px;
+
+    @include b.breakpoint_max(large) {
+      margin: 0 1.5rem;
+      background: none;
+      color: #000;
+    }
+    @include b.breakpoint_max(small) {
+      margin: 0 0.5rem;
+    }
+  }
+
+  &__space {
+    margin: 1.5rem 1rem 1.5rem 0;
+  }
+}
+
+/* left side - story section */
+
+.main__story__details {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  @include b.breakpoint_max(large) {
+    flex-direction: column;
+    margin: 0 1.5rem;
+    gap: 10px;
+  }
+
+  @include b.breakpoint_max(small) {
+    margin: 0 0.5rem;
+  }
+
+  &__section1 {
+    flex: 8 1;
+    height: fit-content;
+  }
+
+  &__section2 {
+    flex: 4 1;
+    height: fit-content;
+    text-align: center;
+    // border: 1px solid #000;
+
+    &__div {
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      margin-bottom: 10px;
+    }
+  }
+}
+.story__cover {
+  height: fit-content;
+  position: relative;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+}
+
+.story__title {
+  height: fit-content;
+  display: flex;
+  align-items: center;
+
+  &__desc {
+    line-height: 1.3;
+    font-size: clamp(1rem, 1vw + 1rem, 1.5rem);
+
+    @include b.breakpoint_max(large) {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+
+.full__story {
+  height: fit-content;
+
+  p {
+    line-height: 1.5;
+    font-size: clamp(1rem, 1vw + 1rem, 1.12rem);
+
+    @include b.breakpoint_max(large) {
+      width: 100%;
+      padding: 0 2rem;
+    }
+
+    @include b.breakpoint_max(small) {
+      padding: 0 1rem;
+    }
+  }
+}
+
+/* for icons */
+.icon__grid {
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+.icon__grid__emotion {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(2px);
+  padding: 0.5rem 0.6rem;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+
+  &__reaction1 {
+    display: flex;
+    gap: 5px;
+  }
+
+  &__reaction2 {
+    display: flex;
+    gap: 5px;
+  }
+}
+.icon__grid__emotion__icon1 {
+  cursor: pointer;
+}
+.icon__grid__emotion__icon2 {
+  cursor: pointer;
+  margin-top: 2px;
+}
+.icon__grid__share {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.5rem 0.6rem;
+  background: v.$color-7;
+  color: v.$color-white;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.icon__grid__emotion .vert {
+  rotate: 90deg;
+  width: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+/* comments */
+.comments {
+  margin: 1rem 0;
+  position: relative;
+
+  @include b.breakpoint_max(large) {
+    padding: 0 2rem;
+  }
+  @include b.breakpoint_max(small) {
+    padding: 0 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    input {
+      display: block;
+      padding: 0.7rem 1rem;
+      margin: 1rem 0 0 0;
+      width: 100%;
+      border-radius: 0.25rem;
+      border: none;
+      font-size: 0.8999rem;
+      border-bottom: 1px groove v.$color-orange;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+
+.post__comment {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    height: 2rem;
+    width: fit-content;
+    padding: 0.8rem 1rem;
+    border-radius: 1.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    transition: v.$transition;
+    cursor: pointer;
+    background: v.$color-5;
+    border: 1px solid rgb(21, 32, 43);
+    color: v.$color-white;
+  }
+}
+.see__all__comments {
+  text-align: center;
+  border-radius: 0.4rem;
+  display: inline-block;
+  padding: 0.75rem 1.2rem;
+  transition: all 400ms ease;
+  width: 100%;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.899px;
+  background: v.$color-7;
+  color: v.$color-light;
+  cursor: pointer;
+
+  &:hover {
+    color: v.$color-white;
+  }
+
+  @include b.breakpoint_max(large) {
+    width: 70%;
+  }
+}
+
+.all__comments {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #fefefe;
+  margin: 2rem auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 35px;
+  font-weight: bold;
+  color: #aaaaaa;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.comment__heading {
+  padding: 1rem 0;
+  background-color: #f5f7f8;
+  border-radius: 5px;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 30%);
+
+  h3 {
+    text-transform: uppercase;
+    text-shadow: 0px 6px 8px rgb(0 0 0 / 30%);
+    font-size: clamp(1rem, 1.3vw + 1rem, 1.6rem);
+  }
+}
+
+.each__single__comment {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 400px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; // chrome, safari, opera
+  }
+}
+
+.single__comment {
+  display: flex;
+  padding: 1rem;
+  justify-content: space-evenly;
+  width: 100%;
+  border-bottom: 1px groove rgba(0, 0, 0, 0.2);
+
+  @include b.breakpoint_max(small) {
+    padding: 0;
+  }
+
+  img {
+    width: 30%;
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 50%;
+    border: 2px solid v.$color-primary;
+
+    @include b.breakpoint_max(small) {
+      max-width: 80px;
+      max-height: 80px;
+    }
+  }
+
+  &__details {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 1rem;
+
+    h4 {
+      text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+      font-size: clamp(1rem, 1.4vw + 1rem, 1.3rem);
+
+      @include b.breakpoint_max(small) {
+        margin-left: 1rem;
+      }
+    }
+
+    p {
+      width: 100%;
+      font-size: 0.899rem;
+      text-align: left;
+      margin: 0.6rem 0;
+
+      @include b.breakpoint_max(small) {
+        margin: 0.6rem 1rem;
+      }
+    }
+
+    span {
+      font-size: 0.788rem;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+/* for profile - author */
+.author__details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include b.breakpoint_max(large) {
+    align-items: flex-start;
+  }
+
+  h3 {
+    text-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+    font-size: clamp(1rem, 1.5vw + 1rem, 1.5rem);
+    padding: 1rem 0;
+
+    @include b.breakpoint_max(large) {
+      display: none;
+    }
+  }
+}
+
+.profile__details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @include b.breakpoint_max(large) {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  @include b.breakpoint_max(medium) {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__img {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    @include b.breakpoint_max(large) {
+      flex-direction: row;
+      width: 50%;
+      gap: 1.5rem;
+    }
+
+    @include b.breakpoint_max(medium) {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border: 4px solid #9d1313;
+
+      @include b.breakpoint_max(large) {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-left: 1rem;
+      }
+    }
+
+    &__info {
+      text-align: center;
+
+      @include b.breakpoint_max(large) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+        color: black;
+      }
+
+      h4 {
+        font-size: 1.855rem;
+        text-transform: uppercase;
+
+        @include b.breakpoint_max(large) {
+          font-size: 1.75rem;
+        }
+
+        @include b.breakpoint_max(small) {
+          font-size: 1.5rem;
+        }
+      }
+
+      &__activity {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 5px;
+
+        @include b.breakpoint_max(large) {
+          margin-top: 0;
+        }
+
+        div {
+          display: flex;
+          gap: 2px;
+
+          @include b.breakpoint_max(large) {
+            gap: 6px;
+          }
+        }
+      }
+    }
+  }
+
+  &__checkMemories {
+    border-radius: 0.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 400ms ease;
+    width: 100%;
+    height: 3.5rem;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    letter-spacing: 0.899px;
+    background: v.$color-7;
+    border: v.$color-primary;
+    color: v.$color-white;
+    text-align: center;
+    cursor: pointer;
+
+    @include b.breakpoint_max(large) {
+      width: 50%;
+      height: 4.5rem;
+      margin-top: 1.333rem;
+    }
+
+    @include b.breakpoint_max(medium) {
+      width: 100%;
+    }
+
+    &:hover {
+      background: v.$color-5;
+    }
+
+    span {
+      margin: 0 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+
+      @include b.breakpoint_max(large) {
+        font-size: 1.23rem;
+      }
+    }
+  }
+}
+
+.profile__details__img__info__activity .icon {
+  font-size: 13px;
+  @include b.breakpoint_max(large) {
+    font-size: 1.33rem;
+  }
+}
+.profile__details__img__info__activity div span {
+  font-size: 14px;
+  @include b.breakpoint_max(large) {
+    font-size: 1.33rem;
+  }
+}

@@ -1,0 +1,134 @@
+@use "variables" as v;
+@use "breakpoints" as b;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Sofia Sans", sans-serif;
+}
+
+.fs {
+  font-size: clamp(2rem, 5vw + 1rem, 4rem);
+}
+
+.width-50 {
+  width: 50%;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.btn {
+  border-radius: 0.4rem;
+  display: inline-block;
+  padding: 0.75rem 1.2rem;
+  transition: all 400ms ease;
+  width: 100%;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.899px;
+  background: v.$color-4;
+  border: 1px solid v.$color-6;
+  color: v.$color-6;
+  cursor: pointer;
+
+  &:hover {
+    color: v.$color-white;
+    background: v.$color-7;
+    border: none;
+  }
+}
+
+.update-btn {
+  border-radius: 0.4rem;
+  display: inline-block;
+  padding: 0.75rem 1.2rem;
+  transition: all 400ms ease;
+  width: 100%;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.899px;
+  border: 1px solid v.$color-6;
+  color: v.$color-white;
+  cursor: pointer;
+  background: none;
+
+  &:hover {
+    background: v.$color-5;
+    border: none;
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.common__card__container {
+  width: 100%;
+  margin: 0 auto;
+  // min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  // background: #ededed;
+  align-items: center;
+}
+
+.all__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+  height: fit-content;
+  grid-gap: 4rem;
+  width: 80%;
+
+  @include b.breakpoint_max(large) {
+    width: 90%;
+    grid-gap: 2rem;
+  }
+
+  @include b.breakpoint_max(medium) {
+    width: 80%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include b.breakpoint_max(small) {
+    width: 80%;
+    grid-template-columns: 1fr;
+  }
+}
+
+.common__description {
+  line-height: 1.4;
+  text-align: center;
+  margin: 0.9rem auto;
+}
+
+.error__sign {
+  font-size: 1.12rem;
+  color: red;
+}
+
+.error__msg {
+  color: red;
+}
+
+.disabled {
+  cursor: no-drop;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+  }
+}

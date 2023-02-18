@@ -1,0 +1,197 @@
+@use "variables" as v;
+@use "breakpoints" as b;
+
+.update__modal {
+  @include b.breakpoint_max(small) {
+    width: 70%;
+  }
+}
+
+.update__modal__form {
+  box-shadow: 0px 4px 8px rgb(0 0 0 / 20%);
+  background-color: #fefefe;
+  border: 1px solid #888;
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+
+  @include b.breakpoint_max(medium) {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  @include b.breakpoint_max(small) {
+    display: block;
+  }
+
+  &__image {
+    width: 50%;
+
+    @include b.breakpoint_max(small) {
+      width: 100%;
+    }
+  }
+
+  &__details {
+    width: 50%;
+    padding: 1rem 0;
+
+    @include b.breakpoint_max(medium) {
+      padding: 0;
+    }
+
+    @include b.breakpoint_max(small) {
+      width: 100%;
+    }
+  }
+}
+
+.update__modal__img {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: 600px;
+
+    @include b.breakpoint_max(small) {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+  }
+}
+
+.update__modal__image {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+
+  label {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
+    color: v.$color-white;
+    background: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.5);
+      color: v.$color-black;
+    }
+
+    @include b.breakpoint_max(small) {
+      padding: 0.5rem;
+    }
+  }
+}
+
+.update__modal__data {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+
+  @include b.breakpoint_max(small) {
+    padding: 0.3rem;
+    margin: 0.5rem 0;
+  }
+
+  label {
+    font-size: 1rem;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+
+    @include b.breakpoint_max(small) {
+      font-size: 0.7rem;
+    }
+  }
+
+  input {
+    padding: 0.7rem 1rem;
+    background: #ddd;
+    border: 1px solid v.$color-6;
+    font-size: 0.899rem;
+
+    &:focus {
+      background: none;
+    }
+
+    @include b.breakpoint_max(small) {
+      padding: 0.5rem;
+      font-size: 0.56rem;
+    }
+  }
+
+  textarea {
+    height: 250px;
+    resize: none;
+    padding: 0.7rem 1rem;
+    font-size: 0.899rem;
+    background: #ddd;
+    border: 1px solid v.$color-6;
+
+    &:focus {
+      background: none;
+    }
+
+    @include b.breakpoint_max(small) {
+      padding: 0.4rem;
+      height: 170px;
+      font-size: 0.56rem;
+    }
+  }
+}
+
+.update__modal__submit {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+
+  @include b.breakpoint_max(small) {
+    padding: 0.5rem;
+    margin: 0.3rem 0;
+  }
+}
+
+.update__modal__submit .cancel-btn {
+  border-radius: 0.4rem;
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  transition: all 400ms ease;
+  width: 100%;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.899px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid #000;
+  color: #000;
+  margin-top: 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background: v.$color-5;
+    border: none;
+    color: v.$color-white;
+  }
+  @include b.breakpoint_max(small) {
+    padding: 0.3rem;
+  }
+}
+
+.update__modal__submit .btn {
+  @include b.breakpoint_max(small) {
+    padding: 0.4rem;
+  }
+}
+
+.update__modal__img .absolute {
+  position: absolute;
+  bottom: 50px;
+  left: 10px;
+}

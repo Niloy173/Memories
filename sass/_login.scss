@@ -1,0 +1,85 @@
+@use "variables" as v;
+
+.form__container {
+  width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+
+  h2 {
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  &__subheader {
+    margin: 0.9rem auto;
+    width: 65%;
+    line-height: 1.4;
+    text-align: center;
+  }
+}
+
+.form {
+  width: clamp(350px, 30%, 600px);
+  border: 1px solid v.$color-6;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 1.5rem;
+  background: v.$color-2;
+  color: v.$color-white;
+  h3 {
+    text-transform: uppercase;
+    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  height: max-content;
+}
+
+.input__grp {
+  margin: 2rem 0;
+}
+
+.input__grp label {
+  display: block;
+  text-transform: uppercase;
+}
+
+.input__grp input {
+  display: block;
+  padding: 0.7rem 1rem;
+  margin: 1rem 0;
+  width: 100%;
+  border-radius: 0.25rem;
+  border: 1px groove v.$color-6;
+  background: #ddd;
+}
+
+.input__grp input:focus {
+  background: v.$color-white;
+  outline: none;
+}
+
+.form .submit-btn {
+  text-align: center;
+}
+
+.msg__container {
+  margin: 1rem 0.2rem;
+  display: flex;
+  justify-content: space-between;
+
+  &__msg1 {
+    flex: 9;
+  }
+  &__r_msg1 {
+    flex: 12;
+  }
+  &__msg2 {
+    flex: 6;
+    color: v.$color-primary;
+    margin-left: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+}

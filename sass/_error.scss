@@ -1,0 +1,29 @@
+@use "variables" as v;
+@use "breakpoints" as b;
+
+.error__page {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  @include b.breakpoint_max(small) {
+    width: 100%;
+  }
+
+  span {
+    font-weight: bold;
+  }
+}
+.error__page > p {
+  font-size: 20px;
+  margin: 1rem 0;
+}
+
+.redirect__link {
+  border: 2px solid v.$color-5;
+  padding: 10px 12px;
+  font-size: 16px;
+  font-weight: bold;
+}
