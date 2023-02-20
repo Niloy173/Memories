@@ -34,7 +34,7 @@ const MemorySchema = mongoose.Schema({
   timestamps: true
 });
 
-const CommentModel = new mongoose.model("Memory", MemorySchema);
+const MemoryModel = new mongoose.model("Memory", MemorySchema);
 module.exports = {
-  CommentModel
+  MemoryModel
 }

@@ -13,6 +13,11 @@ const UserSchema = mongoose.Schema({
 
   photo: { type: 'string'},
 
+  likes : {
+    type: [String],
+    ref: 'Memory'
+  },
+
   memories : {
     type: [String],
     ref: 'Memory'
@@ -22,7 +27,7 @@ const UserSchema = mongoose.Schema({
   timestamps: true,
 })
 
-const UserModel = new mongoose.model("User", UserSchema);
+const UserModel = mongoose.model("User", UserSchema);
 module.exports = {
   UserModel
 }
