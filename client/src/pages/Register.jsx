@@ -1,6 +1,8 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CheckAuthError from '../util/AuthErrorVerify';
+import ToastMsg from '../util/ToastMsg';
 
 const Register = () => {
 
@@ -17,7 +19,7 @@ const Register = () => {
 
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setIsSubmiting(prev => !prev);
@@ -28,9 +30,18 @@ const Register = () => {
       setIsSubmiting(prev => !prev);
       setError(error);
     }else{
-      setError({});
-      setIsSubmiting(prev => !prev);
-      navigate("/login");
+     
+      try {
+
+        const response = await axios.post(`/api/auth/register`, register);
+        response.data && navigate("/login");
+
+      } catch (error) {
+        
+        ToastMsg(error.response.data.message, false);
+        setIsSubmiting(prev => !prev);
+        setRegister(InitialState);
+      }
     }
   }
 

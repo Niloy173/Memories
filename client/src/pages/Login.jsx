@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/Context';
+
 import CheckAuthError from '../util/AuthErrorVerify';
+import ToastMsg from '../util/ToastMsg';
 
 const Login = () => {
 
@@ -10,28 +14,43 @@ const Login = () => {
   const [error, setError] = useState({});
   const navigate = useNavigate();
 
+  const {authDispatch} = useContext(AuthContext);
+
   const handleState = (e) => {
     const {name, value} = e.target;
     setLogin({...login, [name]: value});
 
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
     setIsSubmiting(prev => !prev);
+    authDispatch({ type: 'LOGIN_START'});
 
     const error = CheckAuthError(login, "login");
 
-    console.log(error);
 
     if(Object.keys(error).length > 0){
       setIsSubmiting(prev => !prev);
       setError(error);
     }else{
-      setError({});
-      setIsSubmiting(prev => !prev);
-      navigate("/");
+      
+      try {
+        
+        const response = await axios.post(`/api/auth/login`,{
+          user: login.Luser,
+          password: login.Lpass
+        });
+  
+        authDispatch({ type: 'LOGIN_SUCCESS', payload: response.data });
+        navigate("/");
+      } catch (error) {
+        
+        ToastMsg(error.response.data.message, false);
+        setIsSubmiting(prev => !prev);
+        authDispatch({ type: 'LOGIN_FAILURE' });
+      }
+      
     }
   }
 

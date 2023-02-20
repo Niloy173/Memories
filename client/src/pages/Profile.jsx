@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 /* icons */
@@ -13,15 +14,19 @@ import { BsImageFill } from 'react-icons/bs';
 import ToastMsg from '../util/ToastMsg';
 
 /* no photo */
-import noPhoto from '../assets/7612643-nophoto.png';
+import jwtDecode from 'jwt-decode';
+import { AuthContext } from '../context/Context';
+import Skeleton from '../skeleton/Skeleton';
 
 
 const Profile = () => {
 
-  const userid = `108208jdjciwjap[q]`;
-  const userInformation = { username: "john Doe", email: "johndoe@gmail.com",file:""};
-  const InitialState = {username: "", email: "", password: "", file: ""};
-  const [data, setData] = useState(InitialState);
+  const {user, authDispatch,loading} = useContext(AuthContext);
+  const decoded = jwtDecode(user);
+
+  const InitalInformation = { username: decoded.username, email: decoded.email, password: "", photo: decoded.photo};
+  const [profile,setprofile] = useState({ username: "", email: "", password: "", photo: ""});
+ 
   const [error, setError] = useState({});
   const [isSubmiting, setIsSubmiting] = useState(false);
 
@@ -30,62 +35,105 @@ const Profile = () => {
     const {name, value} = e.target;
 
     if(e.target.files && e.target.files.length > 0){
-      setData({...data, [name]: e.target.files[0]});
+      setprofile({...profile, [name]: e.target.files[0]});
     }
     
     if(name === "username" || name === "password" || name === "email"){
-      setData({...data, [name]:value})
+      setprofile({...profile, [name]:value})
     }
   }
 
   const CancelRequest = (e) => {
     setError({});
-    setData({...data, ...InitialState});
+    setprofile({...profile, username: "", password: "", photo:"", email: ""});
   }
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
 
     const error = {};
+    const updatedInformation = {};
     setIsSubmiting(prev => !prev);
 
     // eslint-disable-next-line no-useless-escape
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i;
 
-    if(Object.values(data).some(v => v !== ''))
-    {
-      if(data.username && data.username.length < 4){
+   
+    if(profile.username && profile.username.length < 4){
         error.username = "username is too short or empty"
-      }
+    }
   
-      if(data.password && !(data.password.length >= 4 && data.password.length <=8)){
+    if(profile.password && !(profile.password.length >= 4 && profile.password.length <=8)){
         error.password = "password must contain (4-8) characters"
       }
   
-      if(data.email && !regex.test(data.email)){
+    if(profile.email && !regex.test(profile.email)){
         error.email = "Invalid email address";
       }
       
-      if(data.file && data.file.size > 2*1024*1024){
+    if(profile.photo && profile.photo.size > 2*1024*1024){
         error.file = "file must be less than 2MB";
       }
   
-      if(Object.keys(error).length > 0){
+    if(Object.keys(error).length > 0){
         setIsSubmiting(prev => !prev);
         setError(error);
   
       }else{
 
-        // make your api request
-        setError({});
-        setIsSubmiting(prev => !prev);
-        setData(InitialState);
-        ToastMsg("Updated successfully", true, "BOTTOM_CENTER");
+        if(profile.photo){
+
+          const formData = new FormData();
+          formData.append("file", profile.photo);
+          formData.append("upload_preset","upload");
+
+          try {
+
+            const res = await axios.post("https://api.cloudinary.com/v1_1/di8xxkudu/image/upload", formData);
+            const {secure_url} = res.data;
+            updatedInformation.photo = secure_url;
+            
+          } catch (error) {
+            // upload failed
+            updatedInformation.photo = InitalInformation.photo;
+            ToastMsg(error.response.data.message, false);
+          }
+
+        }else{
+          updatedInformation.photo = InitalInformation.photo;
+        }
+
+        updatedInformation.email = profile.email ? profile.email : InitalInformation.email;
+        updatedInformation.username = profile.username ? profile.username : InitalInformation.username;
+        updatedInformation.password = profile.password && profile.password 
+
+
+
+        authDispatch({ type: "UPDATE_START"});
+        try {
+
+          const response = await axios.put(`/api/user/update/${decoded.id}`,updatedInformation,{
+            headers: {'authorization': user} });
+          
+          authDispatch({type: "UPDATE_SUCCESS", payload: response.data});
+        
+          ToastMsg("Updated successfully", true, "BOTTOM_CENTER");
+
+          setError({});
+          setIsSubmiting(prev => !prev);
+          setprofile({...profile,  username: "", password: "", photo:"", email: ""});
+          
+          
+        } catch (error) {
+            
+            authDispatch({type: "UPDATE_FAILURE"});
+            ToastMsg(error.response.data.message, false);
+        }
+
+
+      
   
       }
-    }else{
-      setIsSubmiting(prev => !prev);
-      ToastMsg("Nothing to update", true, "BOTTOM_CENTER");
-    }
+
 
   
     
@@ -95,6 +143,10 @@ const Profile = () => {
   return (
 
    
+    loading ? <Skeleton type={"custom"} /> :
+
+    <React.Fragment>
+
     <div className="profile__section container">
     
       <div className="common__header">
@@ -103,7 +155,7 @@ const Profile = () => {
           <Link to={"/"} className="link">Home</Link>
         </span>
 
-        <h3 className='fs'>My <Link className='link' to={`/profile/auth/${userid}`}>
+        <h3 className='fs'>My <Link className='link' to={`/profile/auth/${decoded.id}/me`}>
         <span>Profile</span></Link>
         </h3>
         
@@ -116,20 +168,21 @@ const Profile = () => {
       
         <div className="profile__activites__common">
             <AiOutlineLike className='icon'/>
-            <Link className='link' to={`/profile/auth/${userid}/likes`}><span>Liked Memories</span></Link>
+            <Link className='link' to={`/profile/auth/${decoded.id}/likes`}><span>Liked Memories</span></Link>
         </div>
 
         <div className="profile__activites__common">
             <MdLocalActivity className='icon'/>
-            <Link className='link' to={`/profile/auth/${userid}/activity`}><span>Activites</span></Link>
+            <Link className='link' to={`/profile/auth/${decoded.id}/activity`}><span>Activites</span></Link>
         </div>
       
       </div>
 
 
+     
       <div className="about__section">
 
-        <h2 className="about__title">About <br/> <span>John Doe</span> </h2> 
+        <h2 className="about__title">About <br/> <span>{InitalInformation.username}</span> </h2> 
       
       
         <div className="about__left">
@@ -138,7 +191,7 @@ const Profile = () => {
           <div className="profile__change">
               <BsImageFill className='profile__change__icon'/>
               <label htmlFor='image'>change image</label>
-              <input id='image' name='file'  type={"file"} onChange={changeInputState} />
+              <input id='image' name='photo'  type={"file"} onChange={changeInputState} />
           </div>
           {error.file && <p className='error__msg file__error'>{error.file}</p>}
         
@@ -148,22 +201,18 @@ const Profile = () => {
 
             <div className="about__image-lg">
               {
-                data.file ?
-                (<img title={data.file.name}  src={URL.createObjectURL(data.file)} alt="uploaded file" />)
-                :userInformation.file ?
-                (<img src={userInformation.file} alt="profile file" title={userInformation.username} />)
-                :<img src={noPhoto} alt="no file" />
+                profile.photo ?
+                (<img title={profile.photo.name}  src={URL.createObjectURL(profile.photo)} alt="uploaded file" />)
+                :<img src={InitalInformation.photo} alt={InitalInformation.username} />
               }
             </div>
 
             <div className="about__image-sm">
               {
              
-                data.file ?
-              (<img title={data.file.name}  src={URL.createObjectURL(data.file)} alt="uploaded file" />)
-              :userInformation.file ?
-              (<img src={userInformation.file} alt="profile file" title={userInformation.username} />)
-              :<img src={noPhoto} alt="no file" />
+                profile.photo ?
+              (<img title={profile.photo.name}  src={URL.createObjectURL(profile.photo)} alt="uploaded file" />)
+              :<img src={InitalInformation.photo} alt={InitalInformation.username} />
 
               }
             </div>
@@ -180,8 +229,8 @@ const Profile = () => {
             <div className="about__right__username input__grp">
             
             <label htmlFor='username'>Username{ error.username && <span className='error__sign'>  *</span>}</label>
-            <input id='username' type="text" name="username" placeholder={userInformation.username}
-            value={data.username} onChange={changeInputState} />
+            <input id='username' type="text" name="username" placeholder={InitalInformation.username}
+            value={profile.username} onChange={changeInputState} />
             <span title='username' className='profile__icon'><FaUserPlus/></span>
 
             {error.username && <p className='error__msg'>{error.username}</p>}
@@ -192,8 +241,8 @@ const Profile = () => {
           <div className="about__right__email input__grp">
           
             <label htmlFor='email'>Email{ error.email && <span className='error__sign'> *</span>}</label>
-            <input id='email' type="text" name="email" placeholder={userInformation.email}
-            value={data.email} onChange={changeInputState} />
+            <input id='email' type="text" name="email" placeholder={InitalInformation.email}
+            value={profile.email} onChange={changeInputState} />
             <span title='email' className='profile__icon'><MdEmail/></span>
 
             {error.email && <p className='error__msg'>{error.email}</p>}
@@ -205,7 +254,7 @@ const Profile = () => {
           
             <label htmlFor='password'>Password{ error.password && <span className='error__sign'>  *</span>}</label>
             <input id='password' type="password" name="password" placeholder={"password must contain (4-8) characters"}
-             value={data.password} onChange={changeInputState} />
+             value={profile.password} onChange={changeInputState} />
             <span title='password' className='profile__icon'><RiLockPasswordFill/></span>
 
             {error.password && <p className='error__msg'>{error.password}</p>}
@@ -213,7 +262,7 @@ const Profile = () => {
           </div>
 
             {
-              (data.file || data.username || data.email || data.password) &&
+              (profile.photo || profile.username || profile.email || profile.password) &&
               (
                 <React.Fragment>
 
@@ -236,10 +285,12 @@ const Profile = () => {
       
       </div>
       
+      
     
 
     </div>
 
+    </React.Fragment>
 
 
   )
