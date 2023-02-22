@@ -64,7 +64,48 @@ const GetUser = async (req, res, next) => {
 
 }
 
+const GetLikedMemories = async (req, res, next) => {
+
+  try {
+
+    const userid = req.params.id;
+
+    const findLikedMemories = await UserModel.findOne({
+      "_id": mongoose.Types.ObjectId(userid)
+    }).populate("likes").sort("-createdAt");
+
+    const {likes} = findLikedMemories;
+
+    res.status(200).json(likes);
+    
+  } catch (error) {
+    next(error);
+  }
+}
+
+const GetUserActivities = async (req, res, next) => {
+  try {
+
+    const userid = req.params.id;
+
+    const findActivites = await UserModel.findOne({
+      "_id": mongoose.Types.ObjectId(userid)
+    }).populate("memories").sort("-createdAt");
+
+    const {memories} = findActivites;
+
+    res.status(200).json(memories);
+    
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+
 module.exports = {
   UpdateUser,
-  GetUser
+  GetUser,
+  GetLikedMemories,
+  GetUserActivities,
 }

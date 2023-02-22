@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './custom.css'; // external
 import './style/style.css'; // main
 
@@ -16,19 +16,26 @@ import Register from './pages/Register';
 // toast css
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from './context/Context';
 
 
 const App = () => {
+
+  const {user} = useContext(AuthContext);
+  // const decoded = JwtDecoder(user);
+
+
   return (
-    <div className='app'>
+    
+    <div className='App'>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={user ? <Home/>: <Login/>} />
+        <Route path='/register' element={user ? <Home/>: <Register />} />
         <Route path='/profile'>
-          <Route path='auth/:id' element={<Profile/>} />
-          <Route path='auth/:id/activity' element={<Activity />} />
-          <Route path='auth/:id/likes' element={<Likes/>} />
+          <Route path='auth/:id/me' element={ user ? <Profile/> : <Login/>} />
+          <Route path='auth/:id/activity' element={user ? <Activity />: <Login/>} />
+          <Route path='auth/:id/likes' element={user ? <Likes/>: <Login/>} />
           <Route path='*' element={<PageNotFound status={"404"} message={"Page Not Found"} />} />
         </Route>
 
@@ -36,9 +43,13 @@ const App = () => {
 
         <Route path='*' element={<PageNotFound status={"404"} message={"Page Not Found"} />} />
       </Routes>
-
+      
       <ToastContainer/>
+
     </div>
+      
+   
+    
   )
 }
 

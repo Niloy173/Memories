@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ActivityContext, AuthContext } from '../context/Context';
+import JwtDecoder from '../util/DecodeToken';
 import MemoryVerification from '../util/MemoryVerification';
+import ToastMsg from '../util/ToastMsg';
 
-const MemoryCreationForm = () => {
+const MemoryCreationForm = ({reFetch}) => {
 
-  const InitialState = { title: '', description: '', file: null};
+  const {user} = useContext(AuthContext);
+  const {activityDispatch} = useContext(ActivityContext);
+  const decoded = JwtDecoder(user);
+
+
+  const InitialState = { title: '', description: '', photo: null};
   const [newMemory, setNewMemory] = useState(InitialState);
   const [errors,setErrors] = useState({});
   const [isSubmiting, setIsSubmiting] = useState(false);
+
+  const navigate = useNavigate();
 
   const ChangeInput = (e) => {
   //  console.log(e.target.files);
@@ -29,8 +41,14 @@ const MemoryCreationForm = () => {
     }
   }
 
-  const SubmitNewMemory = (e) => {
+  const SubmitNewMemory = async (e) => {
     e.preventDefault();
+
+    if(!user){
+      navigate("/login");
+      return;
+    }
+    let photoUrl = "";
     setIsSubmiting(prev => !prev);
 
     const error = MemoryVerification(newMemory, "create");
@@ -39,10 +57,49 @@ const MemoryCreationForm = () => {
       setIsSubmiting(prev => !prev);
       setErrors(error);
     }else{
-      setIsSubmiting(prev => !prev);
-      setNewMemory({...newMemory, ...InitialState});
-      setErrors({});
-      console.log(newMemory);
+
+      const formData = new FormData();
+      formData.append("file", newMemory.photo);
+      formData.append("upload_preset","upload");
+
+      try {
+
+        const res = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, formData);
+        const {secure_url} = res.data;
+        photoUrl = secure_url;
+            
+      } catch (error) {
+
+        ToastMsg(error.response.data.message, false);
+      }
+
+     
+      try {
+        const response = await axios.post(`/api/memory/${decoded.id}`,{
+          authorid: decoded.id,
+          title: newMemory.title,
+          description: newMemory.description,
+          photo: photoUrl
+        }, { headers: {'authorization': user}});
+
+
+        if(response.status === 200){
+          activityDispatch({ type: 'INCREMENT_ACTIVITY' });
+          ToastMsg("Memory created successfully", true, "BOTTOM_CENTER");
+          reFetch();
+        }
+
+        setErrors({});
+        setIsSubmiting(prev => !prev);
+        setNewMemory({...newMemory, ...InitialState});
+
+      } catch (error) {
+        setIsSubmiting(prev => !prev);
+        ToastMsg(error.response.data.message, false, "BOTTOM_CENTER");
+      }
+
+ 
+     
     }
   }
 
@@ -67,9 +124,9 @@ const MemoryCreationForm = () => {
 
       <div className='memory__image input'>
           <label className={errors.file ? 'input-form alert': 'input-form'} htmlFor='file'>
-            {newMemory.file ? "File uploaded": "Upload an image"}
+            {newMemory.photo ? "File uploaded": "Upload an image"}
           </label>
-          <input  type='file' id='file' name='file' onChange={ChangeInput}   />
+          <input  type='file' accept='image/jpg, image/jpeg, image/png' id='file' name='photo' onChange={ChangeInput}   />
           {errors.file && <p className='form__error__msg'>{errors.file}</p>}
       </div>
 

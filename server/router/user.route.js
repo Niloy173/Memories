@@ -1,5 +1,5 @@
 const express = require('express');
-const {UpdateUser, GetUser} = require('../contoller/user.controller');
+const {UpdateUser, GetUser , GetLikedMemories, GetUserActivities, GetUserActivityCount} = require('../contoller/user.controller');
 const { VerifyUser } = require('../helper/verifyUser');
 
 /* router object */
@@ -7,6 +7,10 @@ const router = express.Router();
 
 
 router.get("/:id", VerifyUser, GetUser);
+
+router.get("/memory/:id/likes", VerifyUser, GetLikedMemories);
+
+router.get("/memory/:id/activity", VerifyUser, GetUserActivities);
 
 router.put("/update/:id", VerifyUser, UpdateUser);
 

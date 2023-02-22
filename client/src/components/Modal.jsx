@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
-  const Modal = ({imageURL,setImageURL}) => {
+  const Modal = ({imageURL,setImageURL, author, createdAt}) => {
 
     const CloseModalCheck = (e) => {
       
@@ -31,12 +31,13 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 
           <div className="uploader__img">
-            <img src="https://randomuser.me/api/portraits/men/31.jpg" alt="user" />
+            <img src={author.photo ? author.photo : "https://res.cloudinary.com/di8xxkudu/image/upload/v1676879392/Blogapp/7612643-nophoto_wvzvqj.png"} 
+            alt={author.username} />
           </div>
 
           <div className="uploader__details">
-            <h4>John Doe</h4>
-            <span>{new Date().toLocaleDateString()}</span>
+            <h4>{author.username}</h4>
+            <span>{new Date(createdAt).toLocaleDateString()}</span>
           </div>
         
         </div>

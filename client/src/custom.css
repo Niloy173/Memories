@@ -378,6 +378,13 @@ input[type="file"] {
   .form__ {
     display: none;
   }
+
+  .form__enabled {
+    background: var(--color-bg-2);
+    color: var(--color-white);
+    top: 10px;
+  }
+
   .cards__ {
     padding: 5px;
   }
@@ -416,8 +423,8 @@ input[type="file"] {
 
   .close_form {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 0px;
+    right: 10px;
     font-size: 35px;
     color: white;
     /* padding: 10px; */
@@ -470,7 +477,7 @@ input[type="file"] {
 
 .profile__info h4 {
   text-transform: uppercase;
-  font-size: 1.22rem;
+  font-size: clamp(0.566rem, 1rem, 1.22rem);
   font-weight: 700;
 }
 .results {
@@ -483,19 +490,20 @@ input[type="file"] {
 .r_activity {
   /* border: 1px solid #000; */
   display: flex;
-  gap: 2px;
+  gap: 10px;
 }
 
 .r_activity .left {
-  font-size: 13px;
+  font-size: 1.3rem;
 }
 
 .r_activity .right {
-  font-size: 12px;
+  font-size: 1.1rem;
   color: #e5a55d;
 }
 .r_activity .number {
-  font-size: 11px;
+  font-size: 16px;
+  margin-top: 2px;
 }
 
 @media screen and (max-width: 700px) {
@@ -531,6 +539,12 @@ input[type="file"] {
   display: flex;
   justify-content: center;
   display: none;
+}
+
+.profile__owner h2 {
+  font-size: 1.12rem;
+  text-transform: uppercase;
+  line-height: 1.4;
 }
 
 .profile__hover__info div {
@@ -611,11 +625,14 @@ input[type="file"] {
 
 .uploader__img {
   margin: 0 1rem;
-  width: 25%;
+  object-fit: cover;
+  padding: 7px;
 }
 
 .uploader__img img {
-  width: 100%;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
   border-radius: 50%;
   margin: 0.25rem;
 }
@@ -624,6 +641,7 @@ input[type="file"] {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  margin: 0 2rem 0 0;
 }
 
 .uploader__details h4 {

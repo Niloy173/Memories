@@ -60,4 +60,72 @@ const AuthReducer = (CurrentState, Action) => {
 
 }
 
-export default AuthReducer;
+
+const ActivityReducer = (CurrentState, Action) => {
+
+  switch(Action.type){
+    
+    case 'ADD_ACTIVITY':
+
+      return {
+        ...CurrentState,
+       activity: {
+        ...CurrentState.activity,
+        memories : Action.payload.memories,
+        likes: Action.payload.likes
+       }
+       
+      }
+
+    case 'CLOSE_ACTIVITY':
+      
+      return {
+        ...CurrentState,
+        activity: {
+          ...CurrentState.activity,
+          likes: 0,
+          memories: 0
+        }
+      }
+
+    case 'INCREMENT_ACTIVITY':
+   
+      return {
+        ...CurrentState,
+        activity: {
+          ...CurrentState.activity,
+          memories: CurrentState.activity.memories + 1,
+        }
+      }
+
+    case 'DECREMENT_ACTIVITY':
+        return {
+          ...CurrentState,
+          memories: CurrentState.memories - 1,
+        }
+
+    case 'INCREMENT_LIKES': 
+      return {
+        ...CurrentState,
+        likes: CurrentState.likes + 1,
+      }
+
+    case 'DECREMENT_LIKES': 
+
+      return {
+
+        ...CurrentState,
+        likes: CurrentState.likes - 1,
+      }
+
+
+    default:
+      return CurrentState;
+  }
+}
+
+export {
+  AuthReducer,
+  ActivityReducer
+}
+

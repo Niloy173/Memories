@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/Context';
+import { ActivityContext, AuthContext } from '../context/Context';
 
 import CheckAuthError from '../util/AuthErrorVerify';
 import ToastMsg from '../util/ToastMsg';
@@ -15,6 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const {authDispatch} = useContext(AuthContext);
+  const {activityDispatch} = useContext(ActivityContext);
 
   const handleState = (e) => {
     const {name, value} = e.target;
@@ -41,8 +42,11 @@ const Login = () => {
           user: login.Luser,
           password: login.Lpass
         });
-  
-        authDispatch({ type: 'LOGIN_SUCCESS', payload: response.data });
+
+        console.log(response.data);
+        
+        activityDispatch({ type: 'ADD_ACTIVITY', payload: { memories: response.data.activity, likes: response.data.likes  } })
+        authDispatch({ type: 'LOGIN_SUCCESS', payload: response.data.token });
         navigate("/");
       } catch (error) {
         

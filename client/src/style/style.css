@@ -562,6 +562,13 @@ body {
   margin: 120px 0 80px 20px;
 }
 
+.no_data {
+  display: grid;
+  place-content: center;
+  font-size: 2rem;
+  padding: 1rem 0;
+}
+
 .profile__section {
   position: relative;
 }

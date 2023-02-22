@@ -8,11 +8,11 @@ const { CreateError } = require('../helper/error');
 const CreateMemory = async (req,res,next) => {
   try {
 
-    const foundMemory = await mongoose.findOne({
+    const foundMemory = await MemoryModel.findOne({
       title: req.body.title,
     })
 
-    if(!foundMemory){
+    if(foundMemory){
       return next(CreateError(404, "Choose a different title"));
     }else{
 
@@ -80,13 +80,13 @@ const UpdateMemory = async (req,res,next) => {
   try {
 
     const currentMemory = await MemoryModel.findOne({
-      "_id": mongoose.Types.ObjectId(req.params.id)
+      "_id": mongoose.Types.ObjectId(req.params.memoryid)
     });
 
     if(currentMemory){
 
       const Updated = await MemoryModel.findByIdAndUpdate(
-        req.params.id,{
+        req.params.memoryid,{
           $set: {
             title: req.body.title,
             description: req.body.description,
@@ -97,7 +97,7 @@ const UpdateMemory = async (req,res,next) => {
 
       res.status(200).json(Updated);
     }else{
-      return next(CreateError(404, `No memory found for ${req.params.id}`));
+      return next(CreateError(404, `No memory found for ${req.params.memoryid}`));
     }
     
   } catch (error) {
@@ -127,12 +127,15 @@ const FindAllMemory = async (req,res,next) => {
 
     const userid = req.query.userid;
 
-    if(username){
+    if(userid){
       allMemories = await MemoryModel.find({
         author: userid
       })
     }else{
-      allMemories = await MemoryModel.find();
+      allMemories = await MemoryModel.find().sort("-createdAt").populate({
+        path: 'author',
+        select: '-password',
+      });
     }
 
     res.status(200).json(allMemories);

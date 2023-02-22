@@ -5,9 +5,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 
 /* internal dependencies */
-const Authroute = require("./router/auth.route");
-const Memoryroute = require("./router/memory.route");
-const Userroute = require("./router/user.route");
+const Authroute = require("./router/auth.route.js");
+const Memoryroute = require("./router/memory.route.js");
+const Userroute = require("./router/user.route.js");
+const Commentroute = require("./router/comment.route.js");
 
 /* internal dependencies */
 const {connect} = require("./db/connection");
@@ -29,9 +30,11 @@ app.use(express.urlencoded({extended : true}));
 
 
 /* routes */
+
 app.use("/api/auth", Authroute);
-app.use("/auth/user", Userroute);
+app.use("/api/user", Userroute);
 app.use("/api/memory", Memoryroute);
+app.use("/api/comment", Commentroute);
 
 
 /* port address */

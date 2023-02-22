@@ -68,9 +68,11 @@ const LoginUser = async(req, res, next) => {
     //   secure: true,
     // })
 
-
-
-    res.status(200).json(newToken);
+    res.status(200).json({
+      token: newToken,
+      likes: user.likes.length,
+      activity: user.memories.length
+    });
 
 
   } catch (error) {

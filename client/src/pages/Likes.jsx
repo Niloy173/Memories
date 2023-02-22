@@ -1,25 +1,44 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
-import ImageSlider from '../components/ImageSlider';
 
+import axios from 'axios';
 import { AiOutlineFileText } from 'react-icons/ai';
+import { useLocation } from 'react-router-dom';
+import { AuthContext } from '../context/Context';
+import Skeleton from '../skeleton/Skeleton';
+import ToastMsg from '../util/ToastMsg';
 
 const Likes = () => {
 
-  const images = [
-    'https://images.unsplash.com/photo-1647891938250-954addeb9c51?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxzZWFyY2h8OHx8YWR2ZW50dXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1507034589631-9433cc6bc453?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1539635278303-d4002c07eae3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1611124600582-c9ef0e977585?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDB8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1480812494744-bfed1358a9b7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDJ8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1465310477141-6fb93167a273?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1647891938250-954addeb9c51?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxzZWFyY2h8OHx8YWR2ZW50dXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1507034589631-9433cc6bc453?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1539635278303-d4002c07eae3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1611124600582-c9ef0e977585?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDB8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1480812494744-bfed1358a9b7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDJ8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    'https://images.unsplash.com/photo-1465310477141-6fb93167a273?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fGFkdmVudHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
-  ]
+  const {user} = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const [likes, setLikes] = useState([]);
+
+  const userid = useLocation().pathname.split('/').reverse()[1];
+
+  useEffect(() => {
+    
+    const FetchRequest = async () => {
+      
+      setLoading(true);
+      try {
+
+        const response = await axios.get(`/api/user/memory/${userid}/likes`,{
+          headers: { 'authorization': user }
+        });
+
+        setLikes(response.data);
+        
+      } catch (error) {
+        ToastMsg(error.response.data.message, false);
+      }
+
+      setLoading(false);
+
+    }
+
+    FetchRequest();
+  },[userid,user])
 
   return (
     
@@ -31,7 +50,11 @@ const Likes = () => {
       
       <div className="liked__image__container">
       
-        <ImageSlider slider={images} />
+        {
+          loading ? <Skeleton type="custom" /> :
+          likes.length > 0 ? "Data Found": /*<ImageSlider slider={likes} /> */
+          <span className='no_data'>No Likes Found</span>
+        }
       
       </div>
 

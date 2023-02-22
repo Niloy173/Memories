@@ -70,7 +70,7 @@ const Profile = () => {
         error.email = "Invalid email address";
       }
       
-    if(profile.photo && profile.photo.size > 2*1024*1024){
+    if(profile.photo && profile.photo.size > 3*1024*1024){
         error.file = "file must be less than 2MB";
       }
   
@@ -88,7 +88,7 @@ const Profile = () => {
 
           try {
 
-            const res = await axios.post("https://api.cloudinary.com/v1_1/di8xxkudu/image/upload", formData);
+            const res = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, formData);
             const {secure_url} = res.data;
             updatedInformation.photo = secure_url;
             
@@ -105,8 +105,6 @@ const Profile = () => {
         updatedInformation.email = profile.email ? profile.email : InitalInformation.email;
         updatedInformation.username = profile.username ? profile.username : InitalInformation.username;
         updatedInformation.password = profile.password && profile.password 
-
-
 
         authDispatch({ type: "UPDATE_START"});
         try {

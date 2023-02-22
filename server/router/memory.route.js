@@ -14,7 +14,7 @@ router.get("/:id", SingleMemory);
 
 router.post("/:id", VerifyUser, CreateMemory);
 
-router.put("/:id", VerifyUser, UpdateMemory);
+router.put("/:id/:memoryid", VerifyUser, UpdateMemory);
 
 router.delete("/:id", VerifyUser, DeleteMemory);
 

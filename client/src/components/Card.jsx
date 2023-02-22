@@ -1,27 +1,41 @@
+import axios from 'axios';
 import { saveAs } from 'file-saver';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FiEye } from 'react-icons/fi';
 import { HiDownload } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ToastMsg from '../util/ToastMsg';
 import Modal from './Modal';
 
 import { AiOutlineClose } from 'react-icons/ai';
 import { ToastContainer } from 'react-toastify';
+import { AuthContext } from '../context/Context';
+import JwtDecoder from '../util/DecodeToken';
 
-const Card = ({img, update=false}) => {
+const Card = ({card, update=false}) => {
+
+  const {user} = useContext(AuthContext);
+  const decoded = JwtDecoder(user);
 
   const [imageURL, setImageURL] = useState(null);
   const [updateStatus, setUpdateStatus]= useState(false);
 
-  const CardInformation = { cardImage: img, 
-  cardTitle: 'MEMORY TITLE', cardDesc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti eum deserunt alias, repellendus laborum dignissimos.'}
+  const CardInformation = { cardImage: card.photo, 
+  cardTitle: card.title, cardDesc: card.description, cardId: card._id}
 
-  const [updateState, setUpdateState] = useState(CardInformation);
+  const [updateState, setUpdateState] = useState({ cardImage: card.photo, cardTitle: card.title, cardDesc: card.description, cardId: card._id });
+  
   const [error, setError] = useState({});
   const [isSubmiting, setIsSubmiting] = useState(false);
+  const navigate = useNavigate();
 
   const downloadPoster = async (imgURL) => {
+
+    if(!user){
+      window.location.href = "/login";
+      return;
+    }
+
     try {
       const response = await fetch(imgURL);
       const blob = await response.blob();
@@ -33,7 +47,7 @@ const Card = ({img, update=false}) => {
   }
 
   const UpdateModal = (e) => {
-      setUpdateState({...update, ...CardInformation});
+      setUpdateState({...update, ...CardInformation });
       setError({});
       setUpdateStatus(prev => !prev);
       e.stopPropagation();
@@ -41,7 +55,7 @@ const Card = ({img, update=false}) => {
 
   const CloseModalCheck = (e) => {
     if(e.target.className === "modal") {
-      setUpdateState({...update, ...CardInformation});
+      setUpdateState({...update, ...CardInformation });
       setError({});
       setUpdateStatus(prev => !prev);
     };
@@ -63,24 +77,26 @@ const Card = ({img, update=false}) => {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const updatedInformation = {};
     setIsSubmiting(prev => !prev);
 
     const error = {};
     
 
-    if(updateState.cardImage.size > (3*1024*1024))
+    if(updateState.cardImage.size > (5*1024*1024))
     {
-      error.image = "Image must be less then 3MB";
+      error.image = "Image must be less then 5MB";
     }
 
     if(updateState.cardTitle.length === 0){
-      error.title = "Title length exceeded";
+      error.title = "Title is empty";
     }
 
     if(updateState.cardDesc.length === 0){
-      error.desc = "Title length exceeded";
+      error.desc = "description is empty";
     }
 
 
@@ -91,18 +107,61 @@ const Card = ({img, update=false}) => {
     }else{
 
 
-      if(JSON.stringify(updateState) === JSON.stringify(CardInformation)){
-
-        ToastMsg("Nothing to update", true, "BOTTOM_CENTER");
+      if(JSON.stringify(updateState) !== JSON.stringify(CardInformation)){
+        //ToastMsg("Nothing to update", true, "BOTTOM_CENTER");
         
-      }else{
-        // make api request to update data if any changes are made by user
-        ToastMsg("Updated Successfully", true, "BOTTOM_CENTER");
-      }
+        if(typeof(CardInformation.cardImage) !== typeof(updateState.cardImage))
+        {
+          const formData = new FormData();
+          formData.append("file", updateState.cardImage);
+          formData.append("upload_preset","upload");
 
+          try {
+
+            const res = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, formData);
+            const {secure_url} = res.data;
+            updatedInformation.photo = secure_url;
+            
+          } catch (error) {
+            // upload failed
+            updatedInformation.photo = CardInformation.cardImage;
+            ToastMsg(error.response.data.message, false);
+          }
+
+        }else{
+          updatedInformation.photo = CardInformation.cardImage;
+        }
+
+        updatedInformation.title = CardInformation.cardTitle === updateState.cardTitle ? CardInformation.cardTitle : updateState.cardTitle;
+        updatedInformation.description = CardInformation.cardDesc === updateState.cardDesc ? CardInformation.cardDesc : updateState.cardDesc;
+
+
+        try {
+
+          const response = await axios.put(`/api/memory/${decoded.id}/${updateState.cardId}`,updatedInformation, {
+            headers: { 'authorization': user }
+          });
+
+          // console.log(response.data);
+
+         if(response.status === 200) {
+           // after successful update see the post
+           ToastMsg("Updated Successfully", true, "BOTTOM_CENTER");
+           navigate(`/memory/${response.data._id}`);
+         }
+          
+        } catch (error) {
+         
+          ToastMsg(error.response.data.message, false);
+        }
+
+        
+      }
       setIsSubmiting(prev => !prev);
-     
       setUpdateStatus(prev => !prev);
+
+      
+     
 
     }
 
@@ -115,23 +174,26 @@ const Card = ({img, update=false}) => {
     <article className='card__item'>
       
     <div className="card__img">
-      <img src={img} alt="card_image" />
+      <img src={CardInformation.cardImage} alt="card_image" />
 
-      <div className="card__filter">
+      {
+        !update &&
+        (<div className="card__filter">
         <div>
-          <HiDownload title='Download Image' className='download' onClick={() => downloadPoster(img)} />
+          <HiDownload title='Download Image' className='download' onClick={() => downloadPoster(CardInformation.cardImage)} />
         </div>
-        <div><FiEye title='Full Image' className='eye' onClick={() => setImageURL(img)} /></div>
-      </div>
+        <div><FiEye title='Full Image' className='eye' onClick={() => setImageURL(CardInformation.cardImage)} /></div>
+      </div>)
+      }
     </div>
 
-    <h3>Memory Title</h3>
+    <h3>{CardInformation.cardTitle.substring(0,26)}</h3>
     <summary className='card__desc'>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti eum deserunt alias, repellendus laborum dignissimos.
+     {CardInformation.cardDesc.substring(0,120)}
     </summary>
 
     <div className="explore__more">
-      <Link to={"/memory/ue02jdsd9-sao"} className='btn btn-primary btn-center link'>Explore more</Link>
+      <Link to={`/memory/${card._id}`} className='btn btn-primary btn-center link'>Explore more</Link>
     </div>
 
     {
@@ -148,7 +210,7 @@ const Card = ({img, update=false}) => {
 
 
     {/* image modal */ 
-          imageURL && <Modal imageURL={imageURL} setImageURL={setImageURL} />
+          imageURL && <Modal imageURL={imageURL} setImageURL={setImageURL} author={card.author} createdAt={card.createdAt} />
     /* image modal */ }
 
     { /* for updating card */

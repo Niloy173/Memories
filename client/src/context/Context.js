@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer } from 'react';
-import AuthReducer from './Reducer';
+import { ActivityReducer, AuthReducer } from './Reducer';
 
 const InitialState = {
   user: JSON.parse(localStorage.getItem('memories')) || null,
@@ -7,7 +7,12 @@ const InitialState = {
   error: null
 }
 
+const ActivityState = {
+  activity: JSON.parse(localStorage.getItem('useractivity')) || { likes: 0, memories: 0}
+}
+
 export const AuthContext = createContext(InitialState);
+
 
 export const AuthContextProvider = ({ children }) => {
 
@@ -32,4 +37,27 @@ export const AuthContextProvider = ({ children }) => {
     </AuthContext.Provider>
   )
 
+}
+
+export const ActivityContext = createContext(ActivityState);
+
+export const ActivityContextProvider = ({ children }) => {
+
+  const [activityState, activityDispatch] = useReducer(ActivityReducer, ActivityState);
+
+  useEffect(() => {
+    localStorage.setItem('useractivity', JSON.stringify(activityState.activity));
+  },[activityState.activity])
+
+  return (
+
+    <ActivityContext.Provider
+    value={{
+      activity: activityState.activity,
+      activityDispatch
+    }}>
+      {children}
+    </ActivityContext.Provider>
+
+  );
 }
