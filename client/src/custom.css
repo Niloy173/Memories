@@ -92,7 +92,7 @@ article {
 }
 
 @media screen and (max-width: 500px) {
-  .login__register p:last-child {
+  .login__register div a:nth-child(2) {
     display: none;
   }
 }
@@ -212,7 +212,7 @@ input[type="file"] {
 .card__img {
   overflow: hidden;
   position: relative;
-  opacity: 0.8;
+  /* opacity: 0.8; */
 }
 
 .card__img img {
@@ -222,9 +222,9 @@ input[type="file"] {
   object-fit: cover;
 }
 
-.card__item:hover .card__img {
+/* .card__item:hover .card__img {
   opacity: 1;
-}
+} */
 
 .card__item h3 {
   margin: 1.2rem 0 1rem;
@@ -272,9 +272,39 @@ input[type="file"] {
   cursor: pointer;
   transition: var(--transition);
 }
+
+.card__filter .download:hover {
+  color: green;
+}
+
 .card__filter .eye {
   font-size: 1.22rem;
   cursor: pointer;
+  transition: var(--transition);
+}
+
+.card__filter .eye:hover {
+  color: coral;
+}
+
+.card__filter .update {
+  font-size: 1.22rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.card__filter .update:hover {
+  color: cornflowerblue;
+}
+
+.card__filter .delete {
+  font-size: 1.22rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.card__filter .delete:hover {
+  color: #f72b2b;
 }
 
 .explore__more {
@@ -605,7 +635,7 @@ input[type="file"] {
 
 .modal__img {
   border: 3px solid #fff;
-  box-shadow: 2px 5px 7px rgb(0 0 0 / 50%);
+  /* box-shadow: 2px 5px 7px rgb(0 0 0 / 50%); */
   display: block;
   object-fit: cover;
   max-width: 80%;

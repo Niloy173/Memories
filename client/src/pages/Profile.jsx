@@ -10,6 +10,8 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import { AiOutlineLike } from 'react-icons/ai';
 import { BsImageFill } from 'react-icons/bs';
 
+/* no photo */
+
 /* toast msg */
 import ToastMsg from '../util/ToastMsg';
 
@@ -71,7 +73,7 @@ const Profile = () => {
       }
       
     if(profile.photo && profile.photo.size > 3*1024*1024){
-        error.file = "file must be less than 2MB";
+        error.file = "file must be less than 3MB";
       }
   
     if(Object.keys(error).length > 0){
@@ -127,14 +129,9 @@ const Profile = () => {
             ToastMsg(error.response.data.message, false);
         }
 
-
-      
   
       }
 
-
-  
-    
   }
 
 
@@ -264,10 +261,10 @@ const Profile = () => {
               (
                 <React.Fragment>
 
-                <button type='button' disabled={isSubmiting}  className={"submit-btn btn"} onClick={handleUpdate}>
-                {isSubmiting ? 'Checking...' : 'Save'}
+                <button type='button' disabled={isSubmiting}   className={isSubmiting ? "submit-btn btn disabled_btn": "submit-btn btn"}
+                 onClick={handleUpdate}> {isSubmiting ? 'Checking...' : 'Save'}
                 </button>
-                <button type='button' className={"cancel-btn"} onClick={CancelRequest}>Cancel</button>
+                <button type='button' disabled={isSubmiting} className={isSubmiting ? "cancel-btn disabled_btn": "cancel-btn"} onClick={CancelRequest}>Cancel</button>
 
                 </React.Fragment>
               )

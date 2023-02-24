@@ -5,9 +5,10 @@ import ToastMsg from '../util/ToastMsg';
 
 const useFetch = (url,token) => {
 
-  console.log(url);
   const [isloading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+
+  // console.log(url);
 
   useEffect(() => {
 
@@ -34,10 +35,12 @@ const useFetch = (url,token) => {
   },[url,token])
 
 
-  const reFetch = async () => {
+  const reFetch = async (...params) => {
+
+    const options = params.length > 0 ? {...params[0]} : {};
     try {
 
-      const response = await axios.get(url);
+      const response = await axios.get(url,options); // should be evaluated later
       setData(response.data);
       
     } catch (error) {

@@ -40,9 +40,53 @@ const Skeleton = ({type}) => {
     )
   }
 
+  const SingleMemory = () => {
+    return (
+      <div className="single__skeleton">
+
+        <div className="main__story__skeleton">
+        
+          <div className='main__story__skeleton__cover'>
+            <div className='main__story__skeleton__cover__photo'></div>
+            <div className='main__story__skeleton__cover__grid'></div>
+
+          </div>
+          
+          <div className='main__story__skeleton__author'>
+
+            <div className='main__story__skeleton__author__d1'></div>
+
+            <div className='main__story__skeleton__author__d2'></div>
+
+          </div>
+        
+        </div>
+
+        <div className="story__details__skeleton">
+        
+          <div className='story__details__skeleton__paragraph'>
+            <div className='story__details__skeleton__paragraph__p1'></div>
+            <div className='story__details__skeleton__paragraph__p2'></div>
+          </div>
+          
+          <div className='story__details__skeleton__sidebar'>
+          
+            <div className='story__details__skeleton__sidebar__box'></div>
+            <div className='story__details__skeleton__sidebar__box'></div>
+            <div className='story__details__skeleton__sidebar__box3'></div>
+          
+          </div>
+      
+        </div>
+
+      </div>
+    )
+  }
+
   if(type === "card") return <CardSkeleton/>;
   if(type === "profile") return <ProfileSkeleton/>;
   if(type === "custom") return <Custom />;
+  if(type === "memory") return <SingleMemory/>;
 }
 
 export default Skeleton;
