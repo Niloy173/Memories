@@ -1,0 +1,21 @@
+{
+  "name": "memories",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./server/app.js",
+  "scripts": {
+    "build": "cd ./server && npm install && cd ../client && npm install && npm run build",
+    "start": "cd ./server && node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niloy173/Memories.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Niloy173/Memories/issues"
+  },
+  "homepage": "https://github.com/Niloy173/Memories#readme"
+}
