@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.get("/:id", VerifyUser, GetUser);
 
-router.get("/memory/:id/likes", VerifyUser, GetLikedMemories);
+router.get("/:id/likes", VerifyUser, GetLikedMemories);
 
-router.get("/memory/:id/activity", VerifyUser, GetUserActivities);
+router.get("/:id/activity", VerifyUser, GetUserActivities);
 
 router.put("/update/:id", VerifyUser, UpdateUser);
 

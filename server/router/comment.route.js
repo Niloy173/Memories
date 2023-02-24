@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/:memoryid", AllComments);
 
-router.post("/:memoryid", VerifyUser, PostComment);
+router.post("/:id/:memoryid", VerifyUser, PostComment);
 
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const express = require('express');
-const {CreateMemory,UpdateMemory, DeleteMemory, FindAllMemory, SingleMemory} 
+const {CreateMemory,UpdateMemory, DeleteMemory, FindAllMemory, SingleMemory, UpdateActivity} 
 = require('../contoller/memory.controller');
 const { VerifyUser } = require('../helper/verifyUser');
 
@@ -9,6 +9,8 @@ const router = express.Router();
 
 
 router.get("/", FindAllMemory);
+
+router.put("/action/:id",VerifyUser, UpdateActivity)
 
 router.get("/:id", SingleMemory);
 
