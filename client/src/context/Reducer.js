@@ -72,10 +72,102 @@ const ActivityReducer = (CurrentState, Action) => {
        activity: {
         ...CurrentState.activity,
         memories : Action.payload.memories,
-        likes: Action.payload.likes
+        likes: Action.payload.likes,
+        dislikes: Action.payload.dislikes
        }
        
       }
+
+    case 'NEW_ACTIVITY':
+
+      return {
+
+        ...CurrentState,
+        activity: {
+          ...CurrentState.activity,
+          memories: [...CurrentState.activity.memories, Action.payload.id ]
+        }
+      }
+      
+
+      case 'LIKE_ACTIVITY_ADD':
+
+      /* if the post already in dislikes container */
+      let ReissuedDisLikeActivity = [...CurrentState.activity.dislikes];
+      if(ReissuedDisLikeActivity.includes(Action.payload.id)){
+        ReissuedDisLikeActivity = ReissuedDisLikeActivity.filter(a => a !== Action.payload.id); 
+      }
+
+      return {
+        ...CurrentState,
+       activity: {
+        ...CurrentState.activity,
+        likes: [...CurrentState.activity.likes, Action.payload.id ],
+        dislikes: ReissuedDisLikeActivity
+       }
+       
+      }
+
+      case 'LIKE_ACTIVITY_REMOVE':
+
+      const modifiedLikeActivity = CurrentState.activity.likes.filter(a => a !== Action.payload.id );
+
+      return {
+        ...CurrentState,
+       activity: {
+        ...CurrentState.activity,
+        likes: modifiedLikeActivity
+       }
+       
+      }
+
+      case 'DISLIKE_ACTIVITY_ADD':
+
+        /* if the post already in dislikes container */
+        let ReissuedLikeActivity = [...CurrentState.activity.likes];
+        if(ReissuedLikeActivity.includes(Action.payload.id)){
+          ReissuedLikeActivity = ReissuedLikeActivity.filter(a => a !== Action.payload.id); 
+        }
+
+        return {
+          ...CurrentState,
+        activity: {
+          ...CurrentState.activity,
+          likes: ReissuedLikeActivity,
+          dislikes: [...CurrentState.activity.likes, Action.payload.id ]
+        }
+        
+        }
+
+        case 'DISLIKE_ACTIVITY_REMOVE':
+
+        const modifiedDisLikeActivity = CurrentState.activity.dislikes.filter(a => a !== Action.payload.id );
+  
+        return {
+          ...CurrentState,
+         activity: {
+          ...CurrentState.activity,
+          dislikes: modifiedDisLikeActivity
+         }
+         
+        }
+
+      case 'DELETE_MEMORY':
+
+      const DeletedFromMemories = CurrentState.activity.memories.filter(a => a !== Action.payload.id);
+      const DeletedFromLikes = CurrentState.activity.likes.filter(a => a !== Action.payload.id);
+      const DeletedFromDisLikes = CurrentState.activity.dislikes.filter(a => a !== Action.payload.id); 
+
+      return {
+        ...CurrentState,
+        activity: {
+          ...CurrentState.activity,
+          memories: DeletedFromMemories,
+          likes: DeletedFromLikes,
+          dislikes: DeletedFromDisLikes
+        }
+      }
+
 
     case 'CLOSE_ACTIVITY':
       
@@ -83,40 +175,14 @@ const ActivityReducer = (CurrentState, Action) => {
         ...CurrentState,
         activity: {
           ...CurrentState.activity,
-          likes: 0,
-          memories: 0
+          likes: [],
+          memories: []
         }
       }
 
-    case 'INCREMENT_ACTIVITY':
-   
-      return {
-        ...CurrentState,
-        activity: {
-          ...CurrentState.activity,
-          memories: CurrentState.activity.memories + 1,
-        }
-      }
 
-    case 'DECREMENT_ACTIVITY':
-        return {
-          ...CurrentState,
-          memories: CurrentState.memories - 1,
-        }
 
-    case 'INCREMENT_LIKES': 
-      return {
-        ...CurrentState,
-        likes: CurrentState.likes + 1,
-      }
 
-    case 'DECREMENT_LIKES': 
-
-      return {
-
-        ...CurrentState,
-        likes: CurrentState.likes - 1,
-      }
 
 
     default:

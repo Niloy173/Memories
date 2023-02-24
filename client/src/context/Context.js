@@ -8,7 +8,7 @@ const InitialState = {
 }
 
 const ActivityState = {
-  activity: JSON.parse(localStorage.getItem('useractivity')) || { likes: 0, memories: 0}
+  activity: JSON.parse(localStorage.getItem('useractivity')) || { likes: [], dislikes: [], memories: []}
 }
 
 export const AuthContext = createContext(InitialState);
