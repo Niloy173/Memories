@@ -9,6 +9,9 @@ import { AuthContext } from '../context/Context';
 import Skeleton from '../skeleton/Skeleton';
 import ToastMsg from '../util/ToastMsg';
 
+/* quotes */
+import Quote from '../util/Quotes';
+
 const Likes = () => {
 
   const {user} = useContext(AuthContext);
@@ -49,8 +52,7 @@ const Likes = () => {
     <div className="likes">
     
       <Header title={"Liked"}
-      description={`Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Minima excepturi perspiciatis aperiam inventore! lo excepturi perspiciatis aperiam inventore! lo`} />
+      description={Quote[Math.floor(Math.random()*Quote.length)]} />
       
       <div className="liked__image__container">
       
@@ -67,10 +69,9 @@ const Likes = () => {
       
        <ul>
 
-          <li><AiOutlineFileText className='icon'/> Lorem ipsum dolor sit, amet c</li>
+          <li><AiOutlineFileText className='icon'/> Memories: moments of our lives </li>
 
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Repellendus reprpsam iusto modi!</li>
+          <li>{Quote[Math.floor(Math.random() * Quote.length)]}</li>
        
        </ul>
       
@@ -81,10 +82,9 @@ const Likes = () => {
       
       <ul>
 
-         <li><AiOutlineFileText className='icon'/> Lorem ipsum dolor sit, amet c</li>
+         <li><AiOutlineFileText className='icon'/> Memories: moments of our lives </li>
 
-         <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-         Repellendus reprpsam iusto modi!</li>
+         <li>{Quote[Math.floor(Math.random() * Quote.length)]}</li>
       
       </ul>
      

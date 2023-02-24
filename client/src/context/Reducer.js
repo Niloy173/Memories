@@ -134,7 +134,7 @@ const ActivityReducer = (CurrentState, Action) => {
         activity: {
           ...CurrentState.activity,
           likes: ReissuedLikeActivity,
-          dislikes: [...CurrentState.activity.likes, Action.payload.id ]
+          dislikes: [...CurrentState.activity.dislikes, Action.payload.id ]
         }
         
         }

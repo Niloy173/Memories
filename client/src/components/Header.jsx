@@ -1,5 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = ({title, description}) => {
   return (
@@ -11,7 +12,7 @@ const Header = ({title, description}) => {
         </span>
     
         <h3 className='fs'>{title} <Link className='link' to={"/"}><span>Memories</span></Link></h3>
-        <p className='common__description'>{description}</p>
+        <motion.p layout className='common__description'>{description}</motion.p>
     
     </div>
   )

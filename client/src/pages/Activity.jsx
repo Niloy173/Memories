@@ -9,6 +9,9 @@ import { AuthContext } from '../context/Context';
 import useFetch from '../hooks/useFetch';
 import Skeleton from '../skeleton/Skeleton';
 
+/* Quote */
+import Quote from '../util/Quotes';
+
 const Activity = () => {
 
   const {user} = useContext(AuthContext);
@@ -30,8 +33,7 @@ const Activity = () => {
     <div className='activity'>
     
       <Header title={"Your"} 
-      description={`Lorem ipsum dolor sit amet consectetur adipisicing elit.
-       Minima excepturi perspiciatis aperiam inventore! lo excepturi perspiciatis aperiam inventore! lo`} />
+      description={Quote[Math.floor(Math.random()*Quote.length)]} />
 
       <div className="activity__card__container">
 

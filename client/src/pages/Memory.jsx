@@ -10,6 +10,8 @@ import StoryDetails from '../components/MainStory/StoryDetails';
 import Skeleton from '../skeleton/Skeleton';
 import ToastMsg from '../util/ToastMsg';
 
+/* Quote */
+import Quote from '../util/Quotes';
 
 const Memory = () => {
 
@@ -105,7 +107,6 @@ const Memory = () => {
        
         <div className="main__story__details__section1">
           <StoryDetails title={data.title} description={data.description} />
-          
         </div>
 
         <div className="main__story__details__section2">
@@ -114,10 +115,9 @@ const Memory = () => {
         
             <ul>
       
-              <li><AiOutlineFileText className='icon'/> Lorem ipsum dolor sit, amet c</li>
+              <li><AiOutlineFileText className='icon'/> Memories: moments of our lives </li>
       
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-              Repellendus reprpsam iusto modi!</li>
+              <li>{Quote[Math.floor(Math.random()*Quote.length)]}</li>
             
             </ul>
         
@@ -127,10 +127,9 @@ const Memory = () => {
         
             <ul>
       
-              <li><AiOutlineFileText className='icon'/> Lorem ipsum dolor sit, amet c</li>
+              <li><AiOutlineFileText className='icon'/> Memories: moments of our lives </li>
       
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-              Repellendus reprpsam iusto modi!</li>
+              <li>{Quote[Math.floor(Math.random()*Quote.length)]}</li>
             
             </ul>
       

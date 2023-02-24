@@ -1,8 +1,12 @@
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CheckAuthError from '../util/AuthErrorVerify';
 import ToastMsg from '../util/ToastMsg';
+
+/* quotes */
+import Quote from '../util/Quotes';
 
 const Register = () => {
 
@@ -52,7 +56,7 @@ const Register = () => {
     <div className="register form__container">
     
     <Link to={"/"} className='link'><h2 className='fs'>Memories</h2></Link>
-      <p className='form__container__subheader'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit earum delectus fugit.</p>
+      <motion.p layout className='form__container__subheader'>{Quote[Math.floor(Math.random() * Quote.length)]}</motion.p>
 
       <div className="form">
       
