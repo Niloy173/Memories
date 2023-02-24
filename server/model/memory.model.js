@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const MemorySchema = mongoose.Schema({
 
   author : {
-    type: 'String',
+    type: mongoose.Types.ObjectId,
     ref: 'User'
   },
 
@@ -23,10 +23,12 @@ const MemorySchema = mongoose.Schema({
     dislikes: { type: 'Number', default: 0}
   },
 
-  comments: {
-    type: [String],
-    ref: 'Comment'
-  }
+  comments: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Comment'
+    }
+  ]
 
 
 

@@ -2,22 +2,14 @@ const mongoose = require('mongoose');
 
 const CommentSchema = mongoose.Schema({
 
-  memory: { type: 'string', required: true },
+  memory: { type: mongoose.Types.ObjectId, ref: 'Memory' },
 
-  username: { type: 'string', required: true},
+  author: { type: mongoose.Types.ObjectId, ref: 'User'},
 
-  photo: { type: 'string', required: true},
-
-  message: { type: 'string', required: true},
-  
-  role: { type: 'string', default: 'user' },
-
-  date: {
-    type: Date, default: new Date().toLocaleDateString()
-  }
+  text: { type: String, required: true }
 
 },{
-  timestamp: true
+  timestamps: true
 })
 
 const CommentModel = new mongoose.model('Comment', CommentSchema);

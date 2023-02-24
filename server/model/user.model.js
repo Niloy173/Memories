@@ -13,15 +13,26 @@ const UserSchema = mongoose.Schema({
 
   photo: { type: 'string'},
 
-  likes : {
-    type: [String],
-    ref: 'Memory'
-  },
+  likes: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Memory'
+    }
+  ],
 
-  memories : {
-    type: [String],
-    ref: 'Memory'
-  }
+  dislikes: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Memory'
+    }
+  ],
+
+  memories:[
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Memory'
+    }
+  ]
 
 },{
   timestamps: true,
