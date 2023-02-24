@@ -58,7 +58,7 @@ const LoginUser = async(req, res, next) => {
       id: user._id,
       username: user.username,
       email: user.email,
-      photo: user.photo ? user.photo : "https://res.cloudinary.com/di8xxkudu/image/upload/v1676879392/Blogapp/7612643-nophoto_wvzvqj.png"
+      photo: user.photo ? user.photo : "https://res.cloudinary.com/di8xxkudu/image/upload/v1677147090/upload/7612643-nophoto_rbjarr.png"
 
     },process.env.JWT_TOKEN);
 
@@ -70,8 +70,9 @@ const LoginUser = async(req, res, next) => {
 
     res.status(200).json({
       token: newToken,
-      likes: user.likes.length,
-      activity: user.memories.length
+      likes: user.likes,
+      dislikes: user.dislikes,
+      activity: user.memories,
     });
 
 

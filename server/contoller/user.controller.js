@@ -72,13 +72,20 @@ const GetLikedMemories = async (req, res, next) => {
 
     const findLikedMemories = await UserModel.findOne({
       "_id": mongoose.Types.ObjectId(userid)
-    }).populate("likes").sort("-createdAt");
+    }).populate({
+      path: 'likes', options : { sort: {createdAt: -1} },
+      select: '-updatedAt -activity',
+      populate: {
+        path: 'author', select: '-password -createdAt -updatedAt -likes -memories', model: 'User'
+      }
+    })
 
     const {likes} = findLikedMemories;
 
     res.status(200).json(likes);
     
   } catch (error) {
+    console.log(error);
     next(error);
   }
 }

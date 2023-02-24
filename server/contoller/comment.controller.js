@@ -32,25 +32,13 @@ const PostComment = async (req, res, next) => {
 
   try {
 
-    const Ownerid = await MemoryModel.findOne({ _id: req.params.id })
-  .select('author');
-
-  const UserInfo = await UserModel.findOne({ _id: req.body.userid },
-    { username: 1, photo: 1});
-
-  const role = req.body.userid === Ownerid && 'author' ;
-
   const newComment = new CommentModel({
-    memory: req.params.memoryid,
-    username: UserInfo.username,
-    photo: UserInfo.photo,
-    message: req.body.message,
-    role
+    ...req.body,
   })
 
   const comment = await newComment.save();
 
-  await MemoryModel.findByIdAndUpdate(req.params.memoryId,{
+  await MemoryModel.findByIdAndUpdate(req.params.memoryid,{
     
       $push: {
         comments: comment._id,
@@ -58,7 +46,14 @@ const PostComment = async (req, res, next) => {
     
   },{ new: true});
 
-  res.statu(200).json(comment);
+  const {comments} = await MemoryModel.findById(req.params.memoryid)
+  .populate({ path : 'comments', options : { sort: {createdAt: -1} },  populate: 
+    { path: 'author', select: '-password -memories -updatedAt -createdAt', model: 'User' } 
+  });
+
+  
+  res.status(200).json(comments);
+  
     
   } catch (error) {
     next(error);

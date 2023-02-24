@@ -2,8 +2,115 @@ const mongoose = require('mongoose');
 
 const { MemoryModel } = require("../model/memory.model");
 const { UserModel } = require("../model/user.model");
+const { CommentModel } = require("../model/comment.model");
 const { CreateError } = require('../helper/error');
 
+
+const UpdateActivity = async (req,res,next) => {
+  
+  try {
+
+    const memoryid = req.body.memoryid;
+    const userid = req.params.id;
+
+    if(req.body.type === "like"){
+
+      const {dislikes} = await UserModel.findById({"_id": mongoose.Types.ObjectId(userid) });
+
+      if(dislikes.includes(memoryid)){
+
+        await MemoryModel.findByIdAndUpdate(memoryid,
+          { $inc:  {'activity.dislikes': -1 } },
+        {new: true});
+
+        await UserModel.findByIdAndUpdate(userid,
+          { $pull: { dislikes: memoryid } },
+        {new : true});
+
+      }
+
+      const {activity} = await MemoryModel.findByIdAndUpdate(memoryid,
+        { $inc: {'activity.likes': 1 } },
+      {new: true});
+
+      await UserModel.findByIdAndUpdate(userid,
+        { $push: { likes: memoryid } },
+      {new : true});
+
+      res.status(200).json(activity);
+      return
+    }
+
+    if(req.body.type === "removelike"){
+
+      const {activity} = await MemoryModel.findByIdAndUpdate(memoryid,
+        { $inc:  {'activity.likes': -1 } },
+      {new: true});
+
+      await UserModel.findByIdAndUpdate(userid,
+        { $pull: { likes: memoryid } },
+      {new : true});
+
+      res.status(200).json(activity);
+      return
+
+    }
+
+
+    if(req.body.type === "dislike"){
+
+      const {likes} = await UserModel.findById({"_id": mongoose.Types.ObjectId(userid) });
+
+
+      if(likes.includes(memoryid)){
+
+        await MemoryModel.findByIdAndUpdate(memoryid,
+          { $inc:  {'activity.likes': -1 } },
+        {new: true});
+
+        await UserModel.findByIdAndUpdate(userid,
+          { $pull: { likes: memoryid } },
+        {new : true});
+
+      }
+
+      const {activity} = await MemoryModel.findByIdAndUpdate(memoryid,
+        { $inc:  {'activity.dislikes': 1 } },
+      {new: true});
+
+      await UserModel.findByIdAndUpdate(userid,
+        { $push: { dislikes: memoryid } },
+      {new : true});
+
+      res.status(200).json(activity);
+      return
+
+    }
+
+
+    if(req.body.type === "removedislike"){
+
+      const {activity} = await MemoryModel.findByIdAndUpdate(memoryid,
+        { $inc:  {'activity.dislikes': -1 } },
+      {new: true});
+
+      await UserModel.findByIdAndUpdate(userid,
+        { $pull: { dislikes: memoryid } },
+      {new : true});
+
+      res.status(200).json(activity);
+      return
+
+    }
+
+
+
+
+    
+  } catch (error) {
+    next(error);
+  }
+}
 
 const CreateMemory = async (req,res,next) => {
   try {
@@ -42,30 +149,34 @@ const DeleteMemory = async (req, res,next) => {
 
   try {
 
-      const currentMemory = await MemoryModel.findOne({
-    "_id": mongoose.Types.ObjectId(req.params.id)
+    const currentMemory = await MemoryModel.findOne({
+    "_id": mongoose.Types.ObjectId(req.body.memoryid)
   });
 
   const currentUser = await UserModel.findOne({
-    "_id": mongoose.Types.ObjectId(req.body.userid)
+    "_id": mongoose.Types.ObjectId(req.params.id)
   })
 
   const {memories} = currentUser;
+ 
 
-  const updatedMemories = memories.filter(m => m !== currentMemory._id)
+  const updatedMemories = memories.filter(m => m.toString() !== currentMemory._id.toString());
 
   if(currentMemory){
     
 
-    await UserModel.findByIdAndUpdate(req.body.userid,{
+    await UserModel.findByIdAndUpdate(req.params.id,{
 
-        $push: {
+        $set: {
           memories: updatedMemories
         }
       
     },{new: true});
 
+    await CommentModel.deleteMany({ "memory": req.body.memoryid });
     await currentMemory.delete();
+
+    res.status(200).json("Deleted Successfully");
   }else{
     return next(CreateError(404, `No memory found for ${req.params.id}`));
   }
@@ -106,13 +217,27 @@ const UpdateMemory = async (req,res,next) => {
 }
 
 const SingleMemory =  async (req,res,next) => {
+  
   try {
 
     const FindMemory = await MemoryModel.findOne({
       "_id": mongoose.Types.ObjectId(req.params.id)
-    }).populate('comments');
+    })
+    .populate({
+      path: 'comments',
+      options : { sort: {createdAt: -1} },
+      populate: {
+        path: 'author', select : '-password -memories -updatedAt -createdAt', model: 'User'
+      }
+      
+    })
+    .populate({
+      path: 'author', select : '-password -updatedAt -createdAt'
+    });
 
-    res.status(200).json(FindMemory);
+    res.status(200).json({
+      FindMemory
+    });
     
   } catch (error) {
     next(error)
@@ -129,8 +254,12 @@ const FindAllMemory = async (req,res,next) => {
 
     if(userid){
       allMemories = await MemoryModel.find({
-        author: userid
-      })
+        author: mongoose.Types.ObjectId(userid)
+      }).populate({
+        path: 'author',
+        select: '-password',
+      });
+      
     }else{
       allMemories = await MemoryModel.find().sort("-createdAt").populate({
         path: 'author',
@@ -150,5 +279,6 @@ module.exports ={
   UpdateMemory,
   DeleteMemory,
   SingleMemory,
-  FindAllMemory
+  FindAllMemory,
+  UpdateActivity
 }
