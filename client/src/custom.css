@@ -653,6 +653,12 @@ input[type="file"] {
   background: rgba(0, 0, 0, 0.5);
 }
 
+@media screen and (max-width: 468px) {
+  .uploader__info {
+    left: 40px;
+  }
+}
+
 .uploader__img {
   margin: 0 1rem;
   object-fit: cover;
@@ -683,6 +689,11 @@ input[type="file"] {
   text-transform: uppercase;
 }
 
+@media screen and (max-width: 768px) {
+  .uploader__details h4 {
+    font-size: 1rem;
+  }
+}
 .uploader__details span {
   font-weight: 300;
   font-size: 1rem;
