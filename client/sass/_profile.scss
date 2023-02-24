@@ -166,7 +166,7 @@
 .about__image:hover .about__image-lg {
   filter: saturate(1) brightness(1);
   box-shadow: 0 3rem 3rem rgba(0, 0, 0, 0.2);
-  border: 1rem solid v.$color-primary-variant;
+  border: 0.7rem solid v.$color-3;
   left: 2.8rem;
   bottom: 0rem;
 
@@ -208,7 +208,6 @@
   border: 1px solid v.$color-black;
   color: v.$color-black;
   margin-top: 0.5rem;
-  cursor: pointer;
 
   &:hover {
     color: v.$color-white;

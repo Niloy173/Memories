@@ -2,8 +2,9 @@
 @use "breakpoints" as b;
 
 .update__modal {
+  transition: v.$transition;
   @include b.breakpoint_max(small) {
-    width: 70%;
+    width: 100%;
   }
 }
 
@@ -22,6 +23,7 @@
 
   @include b.breakpoint_max(small) {
     display: block;
+    width: 80%;
   }
 
   &__image {
@@ -57,7 +59,7 @@
 
     @include b.breakpoint_max(small) {
       width: 100%;
-      height: 250px;
+      height: 200px;
       object-fit: cover;
     }
   }
@@ -142,7 +144,7 @@
 
     @include b.breakpoint_max(small) {
       padding: 0.4rem;
-      height: 170px;
+      height: 100px;
       font-size: 0.56rem;
     }
   }
@@ -171,7 +173,6 @@
   border: 1px solid #000;
   color: #000;
   margin-top: 0.5rem;
-  cursor: pointer;
 
   &:hover {
     background: v.$color-5;
@@ -193,4 +194,71 @@
   position: absolute;
   bottom: 50px;
   left: 10px;
+}
+
+/* Delete a memory warning*/
+.delete__card {
+  width: clamp(350px, 30%, 400px);
+  border: 1px solid v.$color-1;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 1.5rem;
+  background-color: beige;
+  height: max-content;
+  position: relative;
+
+  &__header {
+    width: 100%;
+    h3 {
+      text-transform: uppercase;
+      color: v.$color-5;
+      text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &__message {
+    margin: 0.4rem 0;
+
+    p {
+      font-size: 0.977rem;
+      color: #37474f;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 25px;
+    font-weight: 900;
+    color: v.$color-5;
+    cursor: pointer;
+  }
+
+  &__options {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin: 2rem 0 0.5rem 0;
+
+    button {
+      padding: 0.5rem 0.8rem;
+      transition: all 400ms ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background: none;
+      border: none;
+      border-radius: 2px;
+    }
+  }
+}
+
+.delete__card__options .delete {
+  background: red;
+  color: v.$color-white;
+}
+
+.delete__card__options .cancel {
+  background: #ddd;
+  border: 0.5px groove #ccc;
 }
