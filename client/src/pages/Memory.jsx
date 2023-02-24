@@ -1,14 +1,65 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import { AiOutlineFileText } from 'react-icons/ai';
 import Author from '../components/MainStory/Author';
 import Comment from '../components/MainStory/Comment';
 import Reaction from '../components/MainStory/Reaction';
 import StoryDetails from '../components/MainStory/StoryDetails';
+import Skeleton from '../skeleton/Skeleton';
+import ToastMsg from '../util/ToastMsg';
 
 
 const Memory = () => {
+
+  // const {user} = useContext(AuthContext);
+  // const decoded = JwtDecoder(user);
+  
+
+  // const userid = decoded && decoded.id;
+  const memoryId = useLocation().pathname.split('/').reverse()[0];
+
+  
+
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({});
+
+  // console.log(data);
+
+  const [action, setAction] = useState({ likes: 0, dislikes: 0 });
+  const [comment, setComment] = useState([]);
+
+
+  useEffect(() => {
+
+    
+    const FetchMemory = async () => {
+
+      setLoading(true);
+      
+      try {
+
+        const response = await axios.get(`/api/memory/${memoryId}`);
+        setData(response.data.FindMemory);
+        setComment(response.data.FindMemory.comments);
+        setAction(response.data.FindMemory.activity);
+    
+
+      } catch (error) {
+        ToastMsg(error.response.data.message, false);
+      }
+
+      setLoading(false);
+
+    }
+
+    FetchMemory();
+
+  },[memoryId])
+
+
+
   return (
     
     <div className="main__memory container">
@@ -22,21 +73,28 @@ const Memory = () => {
       </div>
 
 
-      <div className="main__story">
+      {
+        loading ? <Skeleton type={"memory"} /> :
+
+        Object.keys(data).length > 0  &&
+        
+        <React.Fragment>
+
+        <div className="main__story">
       
       
         <div className="main__story__cover">
           
           <div className="story__cover">
-            <img src="https://images.unsplash.com/photo-1587502538004-e9ec84b491c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="main__story" title='Memory cover' />
+            <img src={data.photo} alt="main__story" title='Memory cover' />
 
-            <Reaction />
+            <Reaction action={action} setAction={setAction}   />
             
           </div>
           
         </div>
         <div className="main__story__author">
-          <Author/>
+          <Author author={data.author} />
         </div>
 
           
@@ -46,7 +104,7 @@ const Memory = () => {
       <div className="main__story__details">
        
         <div className="main__story__details__section1">
-          <StoryDetails />
+          <StoryDetails title={data.title} description={data.description} />
           
         </div>
 
@@ -78,11 +136,15 @@ const Memory = () => {
       
           </div>
 
-          <Comment />
+          <Comment comment={comment} setComment={setComment} />
 
         </div>
       
       </div>
+        
+        
+        </React.Fragment>
+      }
       
 
 

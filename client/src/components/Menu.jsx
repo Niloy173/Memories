@@ -16,8 +16,6 @@ const Menu = () => {
   const {activity, activityDispatch} = useContext(ActivityContext);
   const decoded = JwtDecoder(user);
 
-  console.log(activity);
-
   const SignOut = () =>  {
     activityDispatch({ type: 'CLOSE_ACTIVITY'});
     authDispatch({ type: 'LOG_OUT' });
@@ -48,19 +46,19 @@ const Menu = () => {
         <div className="results">
           
           <div className='r_activity'>
-            <span title='total memories' className='icon left'><MdLocalActivity style={{ color
+            <span title='created memories' className='icon left'><MdLocalActivity style={{ color
             : 'green'}} /></span>
-            <span className='number'>{activity.memories}</span>
+            <span className='number'>{activity.memories.length}</span>
             
           </div>
 
-          <div className='r_activity'>
+          {/*<div className='r_activity'>
             
             <span title='liked memories' className='icon right'><AiFillLike style={{ color
             : '#e5a55d'}} /></span>
-             <span className='number'>{activity.likes}</span>
+             <span className='number'>{activity.likes.length}</span>
 
-            </div>
+            </div>*/}
         
           </div>
         

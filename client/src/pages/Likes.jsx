@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import axios from 'axios';
 import { AiOutlineFileText } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
+import ImageSlider from '../components/ImageSlider';
 import { AuthContext } from '../context/Context';
 import Skeleton from '../skeleton/Skeleton';
 import ToastMsg from '../util/ToastMsg';
@@ -23,11 +24,14 @@ const Likes = () => {
       setLoading(true);
       try {
 
-        const response = await axios.get(`/api/user/memory/${userid}/likes`,{
+        const response = await axios.get(`/api/user/${userid}/likes`,{
           headers: { 'authorization': user }
         });
 
         setLikes(response.data);
+        // console.log(response.data);
+
+
         
       } catch (error) {
         ToastMsg(error.response.data.message, false);
@@ -52,7 +56,7 @@ const Likes = () => {
       
         {
           loading ? <Skeleton type="custom" /> :
-          likes.length > 0 ? "Data Found": /*<ImageSlider slider={likes} /> */
+          likes.length > 0 ? <ImageSlider slider={likes} /> :
           <span className='no_data'>No Likes Found</span>
         }
       

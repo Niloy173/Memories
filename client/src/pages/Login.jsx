@@ -43,9 +43,8 @@ const Login = () => {
           password: login.Lpass
         });
 
-        console.log(response.data);
         
-        activityDispatch({ type: 'ADD_ACTIVITY', payload: { memories: response.data.activity, likes: response.data.likes  } })
+        activityDispatch({ type: 'ADD_ACTIVITY', payload: { memories: response.data.activity, likes: response.data.likes, dislikes: response.data.dislikes  } })
         authDispatch({ type: 'LOGIN_SUCCESS', payload: response.data.token });
         navigate("/");
       } catch (error) {
@@ -84,7 +83,7 @@ const Login = () => {
         {error.pass && <p className='form__error__msg'>{error.pass}</p>} 
       </div>
 
-      <button type='submit' disabled={isSubmiting} className="submit-btn btn">
+      <button  type='submit' disabled={isSubmiting} className={isSubmiting ? "submit-btn btn disabled_btn": "submit-btn btn"}>
         {isSubmiting ? 'Checking...' : 'Submit' }
       </button>
         

@@ -1,24 +1,28 @@
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import React, { useContext, useState } from 'react';
-import { FiEye } from 'react-icons/fi';
-import { HiDownload } from 'react-icons/hi';
 import { Link, useNavigate } from 'react-router-dom';
 import ToastMsg from '../util/ToastMsg';
 import Modal from './Modal';
 
 import { AiOutlineClose } from 'react-icons/ai';
+import { FiEye } from 'react-icons/fi';
+import { HiDownload } from 'react-icons/hi';
+import { RiDeleteBin5Line } from 'react-icons/ri';
+import { RxUpdate } from 'react-icons/rx';
 import { ToastContainer } from 'react-toastify';
-import { AuthContext } from '../context/Context';
+import { ActivityContext, AuthContext } from '../context/Context';
 import JwtDecoder from '../util/DecodeToken';
 
-const Card = ({card, update=false}) => {
+const Card = ({card, update=false, reFetch}) => {
 
   const {user} = useContext(AuthContext);
+  const {activityDispatch} = useContext(ActivityContext);
   const decoded = JwtDecoder(user);
 
   const [imageURL, setImageURL] = useState(null);
   const [updateStatus, setUpdateStatus]= useState(false);
+  const [deleteStatus, setDeleteStatus]= useState(false);
 
   const CardInformation = { cardImage: card.photo, 
   cardTitle: card.title, cardDesc: card.description, cardId: card._id}
@@ -166,6 +170,35 @@ const Card = ({card, update=false}) => {
     }
 
   }
+
+
+  const handleDelete = async () => {
+
+    setIsSubmiting(true);
+
+    try {
+
+      const response = await axios.delete(`/api/memory/${decoded.id}`,
+      {
+        headers: {'authorization': user },
+        data: { memoryid: CardInformation.cardId  }
+      });
+
+      if(response.status === 200){
+
+        reFetch({ headers: {'authorization': user } });
+        activityDispatch({ type: 'DELETE_MEMORY', payload: {  id: CardInformation.cardId  } });
+        ToastMsg("Deleted successfully", true, "BOTTOM_CENTER");
+      }
+      
+    } catch (error) {
+      ToastMsg(error.responsed.data.message, false);
+    }
+
+    setDeleteStatus(prev => !prev);
+    setIsSubmiting(prev => !prev);
+
+  }
   
 
   return (
@@ -177,13 +210,21 @@ const Card = ({card, update=false}) => {
       <img src={CardInformation.cardImage} alt="card_image" />
 
       {
-        !update &&
+        update === true ?
+       
         (<div className="card__filter">
+        <div><RxUpdate title='Update Memory' className='update' onClick={UpdateModal}  /></div>
+        <div><RiDeleteBin5Line title='Delete Memory' className='delete' onClick={() => setDeleteStatus(true)} /></div>
+      </div>)  :
+      
+      (<div className="card__filter">
         <div>
-          <HiDownload title='Download Image' className='download' onClick={() => downloadPoster(CardInformation.cardImage)} />
+          <HiDownload title='Download Image' className='download icon' onClick={() => downloadPoster(CardInformation.cardImage)} />
         </div>
         <div><FiEye title='Full Image' className='eye' onClick={() => setImageURL(CardInformation.cardImage)} /></div>
       </div>)
+
+
       }
     </div>
 
@@ -197,10 +238,10 @@ const Card = ({card, update=false}) => {
     </div>
 
     {
-      update === true &&
+      /*update === true &&
       (<div className="explore__more">
         <button onClick={UpdateModal}  type='button' className='update-btn btn-primary btn-center link'>Update</button>
-      </div>)
+      </div>)*/
     }
 
   
@@ -268,10 +309,11 @@ const Card = ({card, update=false}) => {
 
                 <div className="update__modal__submit">
                 
-                  <button type="submit" disabled={isSubmiting} className='btn btn-save'>
+                  <button type="submit" disabled={isSubmiting}  className={isSubmiting ? "btn btn-save disabled_btn": "btn btn-save"}>
                   {isSubmiting? 'Checking...' : 'Save'}
                   </button>
-                  <button type="button" className='cancel-btn' onClick={UpdateModal}>Cancel</button>
+                  <button type="button" className={isSubmiting ? "cancel-btn disabled_btn": "cancel-btn"} 
+                  onClick={UpdateModal}>Cancel</button>
 
                 </div>
                 
@@ -285,6 +327,40 @@ const Card = ({card, update=false}) => {
         </div>
 
       </div>
+    }
+
+    {
+      /* delete card */
+
+      deleteStatus &&
+      
+      (<div className='modal'>
+      
+        <div className='delete__card'>
+
+        <AiOutlineClose className='delete__card__close' onClick={() => setDeleteStatus(false)} />
+        
+          <div className='delete__card__header'>
+            <h3>Confirmation</h3>
+          </div>
+
+          <div className='delete__card__message'>
+            <p> Are you sure you want to delete this memory </p> 
+          </div>
+
+          <div className='delete__card__line'></div>
+
+          <div className='delete__card__options'>
+          
+            <button disabled={isSubmiting} onClick={handleDelete} className={isSubmiting ? 'delete disabled_btn': 'delete'} type='button'>Delete</button>
+            <button disabled={isSubmiting} className={isSubmiting ? 'cancel disabled_btn': 'cancel'} type='button' 
+            onClick={() => setDeleteStatus(false)}>Cancel</button>
+          
+          </div>
+        
+        </div>
+      
+      </div>)
     }
 
    

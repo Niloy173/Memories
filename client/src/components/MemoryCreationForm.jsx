@@ -6,7 +6,7 @@ import JwtDecoder from '../util/DecodeToken';
 import MemoryVerification from '../util/MemoryVerification';
 import ToastMsg from '../util/ToastMsg';
 
-const MemoryCreationForm = ({reFetch}) => {
+const MemoryCreationForm = ({reFetch, openForm, setOpenForm}) => {
 
   const {user} = useContext(AuthContext);
   const {activityDispatch} = useContext(ActivityContext);
@@ -84,7 +84,8 @@ const MemoryCreationForm = ({reFetch}) => {
 
 
         if(response.status === 200){
-          activityDispatch({ type: 'INCREMENT_ACTIVITY' });
+          openForm && setOpenForm(prev => !prev) // closing the form in small screen after successful
+          activityDispatch({ type: 'NEW_ACTIVITY', payload: { id:response.data._id  } });
           ToastMsg("Memory created successfully", true, "BOTTOM_CENTER");
           reFetch();
         }
@@ -131,7 +132,7 @@ const MemoryCreationForm = ({reFetch}) => {
       </div>
 
       <div className='memory__submit'>
-          <button type='submit' disabled={isSubmiting} className='btn btn-save'>
+          <button type='submit' disabled={isSubmiting}  className={isSubmiting ? "submit-btn btn disabled_btn": "submit-btn btn"}>
             {
               isSubmiting ? "Checking..." : "Create Memory" 
             }

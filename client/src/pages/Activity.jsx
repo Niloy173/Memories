@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
@@ -15,7 +16,7 @@ const Activity = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const userid = useLocation().pathname.split('/').reverse()[1];
 
-  const [data, isloading] = useFetch(`/api/user/memory/${userid}/activity`, user);
+  const [data, isloading, reFetch] = useFetch(`/api/user/${userid}/activity`, user);
 
   const LastCardIndex = currentPage * 3; // Cards per page is 3
   const FirstCardIndex = LastCardIndex - 3;
@@ -37,15 +38,20 @@ const Activity = () => {
       {
         isloading ? <Skeleton type={"custom"} /> : 
         
-        <div className="all__cards">
+        <AnimatePresence>
+
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1}} exit={{ opacity: 0 }}
+        className="all__cards">
         
         {data.length > 0 ? 
             
-          data.slice(FirstCardIndex, LastCardIndex).map((d,i) => <Card key={i} card={d} update={true}   />):
+          data.slice(FirstCardIndex, LastCardIndex).map((d,i) => <Card key={i} card={d} update={true} reFetch={reFetch}   />):
             
-          <span className='no_data'>No Activity Found</span> }
+          <span className='no_data'>No Memory Found</span> }
       
-        </div>
+        </motion.div>
+
+        </AnimatePresence>
       }
 
       

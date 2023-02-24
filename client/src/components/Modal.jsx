@@ -1,6 +1,9 @@
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
+/* no photo */
+import noPhoto from '../assets/7612643-nophoto.png';
+
   const Modal = ({imageURL,setImageURL, author, createdAt}) => {
 
     const CloseModalCheck = (e) => {
@@ -31,7 +34,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 
           <div className="uploader__img">
-            <img src={author.photo ? author.photo : "https://res.cloudinary.com/di8xxkudu/image/upload/v1676879392/Blogapp/7612643-nophoto_wvzvqj.png"} 
+            <img src={author.photo ? author.photo : noPhoto} 
             alt={author.username} />
           </div>
 

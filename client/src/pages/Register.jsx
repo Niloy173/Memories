@@ -81,7 +81,7 @@ const Register = () => {
         {error.password && <p className='form__error__msg'>{error.password}</p>}
       </div>
 
-      <button type="submit" disabled={isSubmiting} className="submit-btn btn">
+      <button type="submit" disabled={isSubmiting}  className={isSubmiting ? "submit-btn btn disabled_btn": "submit-btn btn"}>
       {isSubmiting ? 'Checking...' : 'Register'}
       </button>
         

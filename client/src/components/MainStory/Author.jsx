@@ -1,9 +1,11 @@
 import React from 'react';
-import { AiFillLike } from 'react-icons/ai';
 import { MdLocalActivity } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-const Author = () => {
+/* no photo */
+import noPhoto from '../../assets/7612643-nophoto.png';
+
+const Author = ({author}) => {
   
   return (
     
@@ -15,28 +17,29 @@ const Author = () => {
       
         <div className="profile__details__img">
         
-          <img src="https://randomuser.me/api/portraits/men/31.jpg" alt="author" />
+          <img src={author.photo ? author.photo : noPhoto } 
+          alt={author.username} />
 
           <div className="profile__details__img__info">
         
-          <h4>John Doe</h4>
+          <h4>{author.username}</h4>
 
           <div className="profile__details__img__info__activity">
           
             <div>
-              <MdLocalActivity className='icon left' title='activites' style={{ color
+              <MdLocalActivity className='icon left' title='memories created' style={{ color
               : 'green'}} />
-              <span className='number'>10</span>
+              <span className='number'>{author.memories.length}</span>
               
             </div>
 
-            <div>
+            {/*<div>
               
-              <AiFillLike className='icon right' title='likes' style={{ color
+              <AiFillLike className='icon right' title='likes achieved' style={{ color
               : '#e5a55d'}} />
-              <span className='number'>20</span>
+              <span className='number'>{author.likes.length}</span>
 
-            </div>
+              </div>*/}
         
           </div>
 
@@ -44,13 +47,13 @@ const Author = () => {
         
         </div>
           
+        
         <div className="profile__details__checkMemories">
-
-          <MdLocalActivity className='icon'/>
-          <Link className='link' to={`/profile/auth/${'ffhuhuhs8ds8'}/activity`}>
-          <span>See my memories</span></Link>
-
-        </div>  
+          <Link className='link' to={`/?userid=${author._id}`}>
+            {/*<MdLocalActivity className='icon'/>*/}
+            <span>See my memories</span>
+          </Link>
+        </div>
        
 
       
