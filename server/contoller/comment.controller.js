@@ -3,6 +3,7 @@ const { CreateError } = require("../helper/error");
 const {CommentModel} = require("../model/comment.model");
 const {MemoryModel} = require("../model/memory.model");
 const {UserModel} = require("../model/user.model");
+const {NotificationModel} = require("../model/Notification.model");
 
 
 const AllComments = async (req, res, next) => {
@@ -36,6 +37,8 @@ const PostComment = async (req, res, next) => {
     ...req.body,
   })
 
+  const {_id: userId, username: userName, photo: userPhoto } = await UserModel.findOne({ "_id": req.params.id });
+
   const comment = await newComment.save();
 
   await MemoryModel.findByIdAndUpdate(req.params.memoryid,{
@@ -46,12 +49,29 @@ const PostComment = async (req, res, next) => {
     
   },{ new: true});
 
-  const {comments} = await MemoryModel.findById(req.params.memoryid)
+  const {comments, title, photo, author, _id: memoryId} = await MemoryModel.findById(req.params.memoryid)
   .populate({ path : 'comments', options : { sort: {createdAt: -1} },  populate: 
     { path: 'author', select: '-password -memories -updatedAt -createdAt', model: 'User' } 
-  });
+  })
+  .populate({ path: 'author', select: '-password' });
 
-  
+  const newNotification = new NotificationModel({
+    ownerid : author._id,
+    reaction: "commented",
+    user: {
+      id: userId,
+      name: userName,
+      image: userPhoto
+    },
+    memory: {
+      id: memoryId,
+      title: title,
+      image: photo
+    }
+
+  })
+
+  await newNotification.save();
   res.status(200).json(comments);
   
     

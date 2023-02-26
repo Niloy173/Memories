@@ -3,6 +3,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const { CreateError } = require('../helper/error');
+const { NotificationModel } = require('../model/Notification.model');
 
 
 const {UserModel} = require('../model/user.model');
@@ -109,10 +110,31 @@ const GetUserActivities = async (req, res, next) => {
 }
 
 
+const GetNotifications = async (req,res,next) => {
+
+  const userid = req.params.id;
+  
+
+  try {
+
+    const GetAllNotifications = await NotificationModel.find({ ownerid: 
+      mongoose.Types.ObjectId(userid) }).sort("-createdAt");
+
+    res.status(200).json(GetAllNotifications)
+    
+  } catch (error) {
+    next(error);
+  }
+
+
+
+}
+
 
 module.exports = {
   UpdateUser,
   GetUser,
   GetLikedMemories,
   GetUserActivities,
+  GetNotifications
 }

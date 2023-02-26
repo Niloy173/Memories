@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AiFillLike } from 'react-icons/ai';
+import { AiFillLike, AiFillNotification } from 'react-icons/ai';
 import { CgProfile } from 'react-icons/cg';
 import { GoSignOut } from 'react-icons/go';
 import { MdLocalActivity } from 'react-icons/md';
@@ -85,6 +85,13 @@ const Menu = () => {
                 <Link className='link' to={`/profile/auth/${decoded.id}/likes`}><div>
                   <span><AiFillLike/></span>
                   <span>Memory</span>
+                </div></Link>
+
+
+                
+                <Link className='link' to={`/profile/auth/${decoded.id}/notifications`}><div>
+                  <span><AiFillNotification/></span>
+                  <span>Notices</span>
                 </div></Link>
                 
                 <Link className='link' to={`/profile/auth/${decoded.id}/activity`}><div>

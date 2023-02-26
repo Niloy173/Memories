@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Likes from './pages/Likes';
 import Login from './pages/Login';
 import Memory from './pages/Memory';
+import Notification from './pages/Notification';
 import PageNotFound from './pages/PageNotFound';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
@@ -36,6 +37,7 @@ const App = () => {
           <Route path='auth/:id/me' element={ user ? <Profile/> : <Login/>} />
           <Route path='auth/:id/activity' element={user ? <Activity />: <Login/>} />
           <Route path='auth/:id/likes' element={user ? <Likes/>: <Login/>} />
+          <Route path='auth/:id/notifications' element={user ? <Notification /> : <Login /> } />
           <Route path='*' element={<PageNotFound status={"404"} message={"Page Not Found"} />} />
         </Route>
 

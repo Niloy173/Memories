@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { MemoryModel } = require("../model/memory.model");
 const { UserModel } = require("../model/user.model");
+const {NotificationModel} = require("../model/Notification.model");
 const { CommentModel } = require("../model/comment.model");
 const { CreateError } = require('../helper/error');
 
@@ -29,14 +30,33 @@ const UpdateActivity = async (req,res,next) => {
 
       }
 
-      const {activity} = await MemoryModel.findByIdAndUpdate(memoryid,
+      const {activity, title, photo, author, _id: memoryId} = await MemoryModel.findByIdAndUpdate(memoryid,
         { $inc: {'activity.likes': 1 } },
-      {new: true});
+      {new: true}).populate("author");
 
-      await UserModel.findByIdAndUpdate(userid,
+      const { photo: userPhoto, username: userName, _id: userId} = await UserModel.findByIdAndUpdate(userid,
         { $push: { likes: memoryid } },
       {new : true});
 
+
+      const newNotification = new NotificationModel({
+        ownerid : author._id,
+        reaction: "liked",
+        user: {
+          id: userId,
+          name: userName,
+          image: userPhoto
+        },
+        memory: {
+          id: memoryId,
+          title: title,
+          image: photo
+        }
+
+      })
+
+      await newNotification.save();
+    
       res.status(200).json(activity);
       return
     }
@@ -74,13 +94,31 @@ const UpdateActivity = async (req,res,next) => {
 
       }
 
-      const {activity} = await MemoryModel.findByIdAndUpdate(memoryid,
+      const {activity, title, photo, author, _id: memoryId} = await MemoryModel.findByIdAndUpdate(memoryid,
         { $inc:  {'activity.dislikes': 1 } },
       {new: true});
 
-      await UserModel.findByIdAndUpdate(userid,
+      const { photo: userPhoto, username: userName, _id: userId} = await UserModel.findByIdAndUpdate(userid,
         { $push: { dislikes: memoryid } },
       {new : true});
+
+      const newNotification = new NotificationModel({
+        ownerid : author._id,
+        reaction: "disliked",
+        user: {
+          id: userId,
+          name: userName,
+          image: userPhoto
+        },
+        memory: {
+          id: memoryId._id,
+          title: title,
+          image: photo
+        }
+
+      })
+
+      await newNotification.save();
 
       res.status(200).json(activity);
       return

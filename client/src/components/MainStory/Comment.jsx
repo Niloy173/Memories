@@ -119,10 +119,18 @@ const Comment = ({comment, setComment}) => {
       </div>
     }
 
+    {
+      comment.length > 0 ?
+      (<div onClick={() => setActive(true)} className="see__all__comments">
+        See all comments
+      </div>) :
+      <div className="see__all__comments" style={{ cursor : 'default'}}>
+        No comments Available
+      </div>
 
-    <div onClick={() => setActive(true)} className="see__all__comments">
-      See all comments
-    </div>
+    }
+
+
 
 
     {
@@ -160,7 +168,7 @@ const Comment = ({comment, setComment}) => {
           */}
 
           {
-            comment.length > 0 ? 
+            
             
             comment.map((c) => (
 
@@ -168,7 +176,7 @@ const Comment = ({comment, setComment}) => {
   
                 <div className="single__comment__profile">
                 
-                  <img src={c.author.photo ? c.author.photo : noPhoto} alt={c.author.username} />
+                  <motion.img layout src={c.author.photo ? c.author.photo : noPhoto} alt={c.author.username} />
                 
                 </div>
   
@@ -183,7 +191,7 @@ const Comment = ({comment, setComment}) => {
               </div>
   
             ))
-          : <p className='no__comments'>No Comments Available</p>
+          
             
           } 
         
