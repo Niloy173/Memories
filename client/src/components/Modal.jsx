@@ -25,7 +25,6 @@ import noPhoto from '../assets/7612643-nophoto.png';
 
       <AiOutlineClose className='close_img' onClick={closeImage} />
       
-      <div className="modal__container">
       
         <img src={imageURL} alt="modal_image" className="modal__img" />
 
@@ -46,7 +45,7 @@ import noPhoto from '../assets/7612643-nophoto.png';
         </div>
       
       
-      </div>
+      
 
 
       

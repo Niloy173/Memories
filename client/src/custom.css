@@ -203,6 +203,7 @@ input[type="file"] {
   color: var(--color-white);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: all 400ms ease;
+  height: fit-content;
 }
 
 /* .card__item:hover {
@@ -618,7 +619,7 @@ input[type="file"] {
 
 .modal {
   background: rgba(0, 0, 0, 0.5);
-  height: 100%;
+  height: 100vh;
   width: 100%;
   position: fixed;
   top: 0;
@@ -639,7 +640,7 @@ input[type="file"] {
   display: block;
   object-fit: cover;
   max-width: 80%;
-  max-height: 60%;
+  max-height: 80%;
   margin: 0 auto;
 }
 
@@ -647,15 +648,16 @@ input[type="file"] {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  position: absolute;
-  bottom: 0;
-  left: 50px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   background: rgba(0, 0, 0, 0.5);
 }
 
 @media screen and (max-width: 468px) {
   .uploader__info {
-    left: 40px;
+    bottom: 5px;
+    left: 5px;
   }
 }
 
@@ -667,17 +669,17 @@ input[type="file"] {
 
 .uploader__img img {
   width: 60px;
-  height: 60px;
+  height: auto;
   object-fit: cover;
-  border-radius: 50%;
-  margin: 0.25rem;
+  /* border-radius: 50%; */
+  margin: 0.2rem 0.25rem;
 }
 
 .uploader__details {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin: 0 2rem 0 0;
+  gap: 10px;
+  margin: 0 2rem 0 1rem;
 }
 
 .uploader__details h4 {
