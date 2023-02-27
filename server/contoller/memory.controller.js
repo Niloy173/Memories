@@ -45,7 +45,7 @@ const UpdateActivity = async (req,res,next) => {
         user: {
           id: userId,
           name: userName,
-          image: userPhoto
+          image: userPhoto ? userPhoto : "https://res.cloudinary.com/di8xxkudu/image/upload/v1677147090/upload/7612643-nophoto_rbjarr.png"
         },
         memory: {
           id: memoryId,
@@ -108,7 +108,7 @@ const UpdateActivity = async (req,res,next) => {
         user: {
           id: userId,
           name: userName,
-          image: userPhoto
+          image: userPhoto ? userPhoto : "https://res.cloudinary.com/di8xxkudu/image/upload/v1677147090/upload/7612643-nophoto_rbjarr.png"
         },
         memory: {
           id: memoryId._id,

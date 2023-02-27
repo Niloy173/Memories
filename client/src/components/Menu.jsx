@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 import { AiFillLike, AiFillNotification } from 'react-icons/ai';
 import { CgProfile } from 'react-icons/cg';
 import { GoSignOut } from 'react-icons/go';
@@ -9,12 +10,38 @@ import { Link } from 'react-router-dom';
 import noPhoto from '../assets/7612643-nophoto.png';
 import { ActivityContext, AuthContext } from '../context/Context';
 import JwtDecoder from '../util/DecodeToken';
+import ToastMsg from '../util/ToastMsg';
 
-const Menu = () => {
+const Menu = ({socket}) => {
+
 
   const {user,authDispatch} = useContext(AuthContext);
+  const [numberofnotifications, setNumberOfNotifications] = useState([]);
   const {activity, activityDispatch} = useContext(ActivityContext);
   const decoded = JwtDecoder(user);
+
+  useEffect(() => {
+
+    if(user){
+      
+      axios.get(`/api/notifications?read=false`,{
+        headers: { 'authorization': user }
+      })
+      .then(response =>{
+        setNumberOfNotifications(response.data);
+      })
+      .catch(err =>{
+        ToastMsg(err.message, false);
+      })
+    }
+
+    socket && socket.on("getNotifications",data => {
+      setNumberOfNotifications(prev => [...prev, data]);
+    })
+
+  },[socket,user])
+
+  // console.log(numberofnotifications);
 
   const SignOut = () =>  {
     activityDispatch({ type: 'CLOSE_ACTIVITY'});
@@ -89,8 +116,16 @@ const Menu = () => {
 
 
                 
-                <Link className='link' to={`/profile/auth/${decoded.id}/notifications`}><div>
-                  <span><AiFillNotification/></span>
+                <Link className='link'  to={{
+                  pathname: `/profile/auth/${decoded.id}/notifications`,
+                }}><div>
+                  {
+                    numberofnotifications.length > 0 ?
+                    (<div className='notification__count'>
+                    <p>{numberofnotifications.length}</p>
+                    <span><AiFillNotification/></span>
+                  </div>) :  <span><AiFillNotification/></span>
+                  }
                   <span>Notices</span>
                 </div></Link>
                 

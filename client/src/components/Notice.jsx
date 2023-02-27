@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 const Notice = ({notification}) => {
 
-
   const timeStamp = (d) => {
 
   const date = new Date(d);
@@ -34,7 +33,7 @@ const Notice = ({notification}) => {
 
   return (
 
-    <div className="single__notification">
+    <div className={notification.read === false  ? "single__notification blue": "single__notification"}>
           
             <div className="single__notification__profile">
             

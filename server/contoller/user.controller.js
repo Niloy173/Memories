@@ -81,12 +81,18 @@ const GetLikedMemories = async (req, res, next) => {
       }
     })
 
-    const {likes} = findLikedMemories;
 
-    res.status(200).json(likes);
+    if(findLikedMemories){
+      const {likes} = findLikedMemories;
+      res.status(200).json(likes);
+
+    }else{
+      res.status(200).json([]);
+    }
+
     
   } catch (error) {
-    console.log(error);
+   
     next(error);
   }
 }
@@ -100,9 +106,13 @@ const GetUserActivities = async (req, res, next) => {
       "_id": mongoose.Types.ObjectId(userid)
     }).populate("memories").sort("-createdAt");
 
-    const {memories} = findActivites;
+    if(findActivites){
+      const {memories} = findActivites;
+      res.status(200).json(memories);
 
-    res.status(200).json(memories);
+    }else{
+      res.status(200).json([]);
+    }
     
   } catch (error) {
     next(error);
@@ -117,10 +127,20 @@ const GetNotifications = async (req,res,next) => {
 
   try {
 
+    const GetAllUnreadNotifications = await NotificationModel.countDocuments({
+      $and : [
+        { read: false },
+        { ownerid: mongoose.Types.ObjectId(userid) }
+      ]
+     });
+
     const GetAllNotifications = await NotificationModel.find({ ownerid: 
       mongoose.Types.ObjectId(userid) }).sort("-createdAt");
 
-    res.status(200).json(GetAllNotifications)
+    res.status(200).json({
+      notifications: GetAllNotifications,
+      unread: GetAllUnreadNotifications
+    })
     
   } catch (error) {
     next(error);

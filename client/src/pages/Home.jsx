@@ -10,7 +10,7 @@ import { AuthContext } from '../context/Context';
 import useFetch from '../hooks/useFetch';
 import Skeleton from '../skeleton/Skeleton';
 
-const Home = () => {
+const Home = ({socket}) => {
 
   const [openForm, setOpenForm] = useState(false);
   const {search} = useLocation();
@@ -43,7 +43,7 @@ const Home = () => {
       {
         user ?
         (<div className="profile">
-          <Menu/>
+          <Menu socket={socket}/>
         </div>):
         (<div className="login__register">
           <div>

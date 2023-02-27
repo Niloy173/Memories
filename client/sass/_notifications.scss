@@ -16,6 +16,7 @@
 
   &__header {
     display: flex;
+    position: relative;
 
     h3 {
       font-size: 1.444rem;
@@ -24,12 +25,46 @@
       @include b.breakpoint_max(large) {
         margin-left: 4px;
       }
+
+      @include b.breakpoint_max(small) {
+        font-size: 1.1333rem;
+      }
     }
 
     span {
       margin: 3px 0px 0 10px;
       font-size: 1.377rem;
       color: v.$color-primary;
+
+      @include b.breakpoint_max(small) {
+        font-size: 1.2333rem;
+        margin-left: 5px;
+      }
+    }
+
+    &__btn {
+      position: absolute;
+      right: 0;
+
+      @include b.breakpoint_max(small) {
+        right: 10px;
+      }
+
+      button {
+        padding: 0.3rem 0.4rem;
+        transition: v.$transition;
+        background: #222f2f;
+        color: #fefefe;
+        border: none;
+
+        &:hover {
+          background: #3d5555;
+        }
+
+        @include b.breakpoint_max(small) {
+          padding: 0.3rem;
+        }
+      }
     }
   }
 }
@@ -204,4 +239,8 @@
 .notification__pages__serial__icon.disabled_click {
   pointer-events: none;
   color: #989898;
+}
+
+.blue {
+  background: lightblue;
 }

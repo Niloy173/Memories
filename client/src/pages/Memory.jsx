@@ -13,7 +13,7 @@ import ToastMsg from '../util/ToastMsg';
 /* Quote */
 import Quote from '../util/Quotes';
 
-const Memory = () => {
+const Memory = ({socket}) => {
 
   // const {user} = useContext(AuthContext);
   // const decoded = JwtDecoder(user);
@@ -90,7 +90,7 @@ const Memory = () => {
           <div className="story__cover">
             <img src={data.photo} alt="main__story" title='Memory cover' />
 
-            <Reaction action={action} setAction={setAction}   />
+            <Reaction action={action} setAction={setAction} author={data.author.username} socket={socket}   />
             
           </div>
           
@@ -135,7 +135,7 @@ const Memory = () => {
       
           </div>
 
-          <Comment comment={comment} setComment={setComment} />
+          <Comment comment={comment} setComment={setComment} author={data.author.username} socket={socket} />
 
         </div>
       

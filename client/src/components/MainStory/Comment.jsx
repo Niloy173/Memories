@@ -9,7 +9,7 @@ import ToastMsg from '../../util/ToastMsg';
 /* no photo */
 import noPhoto from '../../assets/7612643-nophoto.png';
 
-const Comment = ({comment, setComment}) => {
+const Comment = ({comment, setComment, author, socket}) => {
 
   const {user} = useContext(AuthContext);
   const decoded = JwtDecoder(user);
@@ -27,39 +27,6 @@ const Comment = ({comment, setComment}) => {
     e.stopPropagation();
   }
 
-  // const Comments = [
-  //   {
-  //     id: "1217361712611",
-  //     photo: "https://randomuser.me/api/portraits/men/20.jpg",
-  //     name: "john biswas",
-  //     msg: "lorem ipsum dolor lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-  //     date: new Date()
-  //   },
-
-  //   {
-  //     id: "1217362712611",
-  //     photo: "https://randomuser.me/api/portraits/women/10.jpg",
-  //     name: "Emila clark",
-  //     msg: "lorem ipsum dolor lorem lorem lroem eknfef ipsum lorem ipsum lorem ipsum lorem ipsum lorem",
-  //     date: new Date()
-  //   },
-
-  //   {
-  //     id: "1217363712611",
-  //     photo: "https://randomuser.me/api/portraits/men/40.jpg",
-  //     name: "Patrick james",
-  //     msg: "lorem ipsum dolor lorem ipsum lorem ipsum lorem ipsum lorem",
-  //     date: new Date()
-  //   },
-
-  //   {
-  //     id: "1217364712611",
-  //     photo: "https://randomuser.me/api/portraits/women/40.jpg",
-  //     name: "Max Loren",
-  //     msg: "lorem ipsum dolor lorem ipsum lorem ipsum lorem ipsum lorem lroemdijef dcfdijcf",
-  //     date: new Date()
-  //   }
-  // ]
 
   const PostComment = async (e) => {
     e.preventDefault();
@@ -81,10 +48,19 @@ const Comment = ({comment, setComment}) => {
             text: newComment
           }, { headers : {'authorization': user} });
 
-          console.log(response.data);
+          // console.log(response.data);
 
           if(response.status === 200) {
             e.target.reset();
+
+            
+            /* send a socket request */
+            socket.emit("sendNotification",{
+              senderName: decoded.username,
+              reciverName: author,
+              type: "comment",
+            })
+
             setisSubmit(prev => !prev);
             setComment([ ...response.data ])
             ToastMsg("Comment posted", true, "BOTTOM_CENTER");

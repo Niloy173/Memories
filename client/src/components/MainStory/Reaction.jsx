@@ -7,7 +7,9 @@ import { ActivityContext, AuthContext } from '../../context/Context';
 import debounce from '../../util/DebounceRequest';
 import JwtDecoder from '../../util/DecodeToken';
 import ToastMsg from '../../util/ToastMsg';
-const Reaction = ({action, setAction}) => {
+
+const Reaction = ({action, setAction, author, socket}) => {
+
 
   const {user} = useContext(AuthContext);
   const {activity, activityDispatch} = useContext(ActivityContext);
@@ -17,6 +19,8 @@ const Reaction = ({action, setAction}) => {
   const memoryid = window.location.href.split('/').reverse()[0];
 
   const [reaction, setReaction] = useState({ like: false, dislike: false });
+
+
 
   async function CopyText(){
     try {
@@ -59,12 +63,26 @@ const Reaction = ({action, setAction}) => {
     if(react === 'like'){
       makeRequest(react,"LIKE_ACTIVITY_ADD");
       setReaction({...reaction, like: true, dislike: false});
+
+      /* send a socket request */
+      socket.emit("sendNotification",{
+        senderName: decoded.username,
+        reciverName: author,
+        type: "like",
+      })
       
     }
 
     if(react === 'dislike'){
       makeRequest(react, "DISLIKE_ACTIVITY_ADD");
       setReaction({...reaction, like: false, dislike: true});  
+
+      /* send a socket request */
+      socket.emit("sendNotification",{
+        senderName: decoded.username,
+        reciverName: author,
+        type: "dislike",
+      })     
       
     }
 

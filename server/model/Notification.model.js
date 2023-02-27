@@ -22,7 +22,9 @@ const NotificationSchema = mongoose.Schema({
 
   },
 
-  reaction: { type: String, required: true  }
+  reaction: { type: String, required: true  },
+
+  read: { type: Boolean, default: false, required: true }
 
 },{
   timestamps: true,

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './custom.css'; // external
 import './style/style.css'; // main
 
@@ -15,22 +15,41 @@ import Profile from './pages/Profile';
 import Register from './pages/Register';
 
 // toast css
+import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from './context/Context';
+
+/* socket */
+import { io } from "socket.io-client";
 
 
 const App = () => {
 
   const {user} = useContext(AuthContext);
+  const [socket,setSocket] = useState(null);
   // const decoded = JwtDecoder(user);
+
+  useEffect(() => {
+
+    const newSocket = io(process.env.REACT_APP_SOCKET_SERVER_URL); // 'http://localhost:5000'
+   //  console.log(newSocket);
+    setSocket(newSocket)
+ 
+   },[])
+ 
+   useEffect(() => {
+
+    if(socket && user) { socket.emit('addNewUser',user); }
+ 
+   },[socket,user])
 
 
   return (
     
     <div className='App'>
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Home socket={socket} />} />
         <Route path='/login' element={user ? <Home/>: <Login/>} />
         <Route path='/register' element={user ? <Home/>: <Register />} />
         <Route path='/profile'>
@@ -41,7 +60,7 @@ const App = () => {
           <Route path='*' element={<PageNotFound status={"404"} message={"Page Not Found"} />} />
         </Route>
 
-        <Route path="/memory/:id" element={<Memory/>} />
+        <Route path="/memory/:id" element={<Memory socket={socket} />} />
 
         <Route path='*' element={<PageNotFound status={"404"} message={"Page Not Found"} />} />
       </Routes>
