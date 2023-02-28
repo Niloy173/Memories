@@ -97,6 +97,7 @@ const Comment = ({comment, setComment, author, socket}) => {
       }
 
     } catch (error) {
+      setSpinner(prev => !prev);
       ToastMsg(error.response.data.message, false);
     }
     
