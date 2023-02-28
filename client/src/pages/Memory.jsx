@@ -135,7 +135,7 @@ const Memory = ({socket}) => {
       
           </div>
 
-          <Comment comment={comment} setComment={setComment} author={data.author.username} socket={socket} />
+          <Comment comment={comment} setComment={setComment} author={data.author} socket={socket} />
 
         </div>
       
