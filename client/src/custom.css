@@ -619,7 +619,7 @@ input[type="file"] {
 
 .modal {
   background: rgba(0, 0, 0, 0.5);
-  height: 100vh;
+  height: 100%;
   width: 100%;
   position: fixed;
   top: 0;

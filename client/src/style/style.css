@@ -1222,11 +1222,22 @@ button.disabled_btn {
   justify-content: space-evenly;
   width: 100%;
   border-bottom: 1px groove rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 @media (max-width: 43.74em) {
   .single__comment {
     padding: 0;
   }
+}
+.single__comment__delete {
+  position: absolute;
+  right: 10px;
+}
+.single__comment__delete span {
+  cursor: pointer;
+}
+.single__comment__delete span :hover {
+  color: crimson;
 }
 .single__comment__profile {
   width: 30%;
@@ -2007,6 +2018,30 @@ button.disabled_btn {
 @keyframes memory {
   to {
     opacity: 0.5;
+  }
+}
+/* spinner */
+.spinner {
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid #ff7b02;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+}
+@media (max-width: 43.74em) {
+  .spinner {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 .notifications__container {
