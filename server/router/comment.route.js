@@ -1,5 +1,5 @@
 const express = require('express');
-const { PostComment, AllComments, DeleteComment } = require("../contoller/comment.controller");
+const { PostComment, AllComments, DeleteComment } = require("../controller/comment.controller");
 const { VerifyUser } = require('../helper/verifyUser');
 
 const router = express.Router();

@@ -1,6 +1,6 @@
 const express = require('express');
 const {CreateMemory,UpdateMemory, DeleteMemory, FindAllMemory, SingleMemory, UpdateActivity} 
-= require('../contoller/memory.controller');
+= require('../controller/memory.controller');
 const { VerifyUser } = require('../helper/verifyUser');
 
 

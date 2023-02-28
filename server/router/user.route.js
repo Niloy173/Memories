@@ -1,5 +1,5 @@
 const express = require('express');
-const {UpdateUser, GetUser , GetLikedMemories, GetUserActivities, GetNotifications} = require('../contoller/user.controller');
+const {UpdateUser, GetUser , GetLikedMemories, GetUserActivities, GetNotifications} = require('../controller/user.controller');
 const { VerifyUser } = require('../helper/verifyUser');
 
 /* router object */
