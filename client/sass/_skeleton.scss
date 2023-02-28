@@ -311,3 +311,27 @@
     opacity: 0.5;
   }
 }
+
+/* spinner */
+.spinner {
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid v.$color-primary;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+
+  @include b.breakpoint_max(small) {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
