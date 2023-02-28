@@ -49,7 +49,7 @@ const port = process.env.PORT || 8800;
 /* socket request */
 const io = new Server(server,{
   cors: {
-    origin: /^https?:\/\/(localhost:3000|memories-e8ba\.onrender\.com)$/
+    origin: /^https?:\/\/(localhost:3000|memories-zft3\.onrender\.com)$/
   }
 });
 
