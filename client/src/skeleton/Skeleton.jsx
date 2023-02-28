@@ -40,6 +40,12 @@ const Skeleton = ({type}) => {
     )
   }
 
+  const Spinner = () => {
+    return (
+      <div className="spinner"></div>
+    )
+  }
+
   const SingleMemory = () => {
     return (
       <div className="single__skeleton">
@@ -87,6 +93,7 @@ const Skeleton = ({type}) => {
   if(type === "profile") return <ProfileSkeleton/>;
   if(type === "custom") return <Custom />;
   if(type === "memory") return <SingleMemory/>;
+  if(type === "spinner") return <Spinner/>;
 }
 
 export default Skeleton;
