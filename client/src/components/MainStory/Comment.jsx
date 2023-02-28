@@ -2,12 +2,14 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import React, { useContext, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import { RiDeleteBin5Line } from 'react-icons/ri';
 import { AuthContext } from '../../context/Context';
 import JwtDecoder from '../../util/DecodeToken';
 import ToastMsg from '../../util/ToastMsg';
 
 /* no photo */
 import noPhoto from '../../assets/7612643-nophoto.png';
+import Skeleton from '../../skeleton/Skeleton';
 
 const Comment = ({comment, setComment, author, socket}) => {
 
@@ -17,6 +19,7 @@ const Comment = ({comment, setComment, author, socket}) => {
   const [newComment,setNewComment] = useState("");
   const [isSubmit, setisSubmit] = useState(false);
   const [active, setActive] = useState(false);
+  const [spinner, setSpinner] = useState(false);
 
   const closeModal = (e) => {
     if(e.target.className === "modal") setActive(false);
@@ -57,7 +60,7 @@ const Comment = ({comment, setComment, author, socket}) => {
             /* send a socket request */
             socket.emit("sendNotification",{
               senderName: decoded.username,
-              reciverName: author,
+              reciverName: author.username,
               type: "comment",
             })
 
@@ -71,6 +74,32 @@ const Comment = ({comment, setComment, author, socket}) => {
         ToastMsg(error.response.data.message, false, "BOTTOM_CENTER");
       }
     }
+  }
+
+  /* delete comment by author of the memory or story */
+  const DeleteComment = async (commentId) => {
+    
+    setSpinner(prev => !prev);
+
+    try {
+      
+      const memoryid = window.location.href.split('/').reverse()[0];
+      const response = await axios.delete(`/api/comment/${decoded.id}/delete?commentid=${commentId}&memoryid=${memoryid}`,{
+        headers: { 'authorization': user }
+      });
+
+      if(response.status === 200){
+        
+        setSpinner(prev => !prev);
+        setComment([...response.data]);
+
+        response.data.length === 0 && setActive(prev => !prev);
+      }
+
+    } catch (error) {
+      ToastMsg(error.response.data.message, false);
+    }
+    
   }
 
   return (
@@ -149,6 +178,15 @@ const Comment = ({comment, setComment, author, socket}) => {
             comment.map((c) => (
 
               <div key={c._id} className="single__comment">
+
+              {
+                (decoded !== null && author._id === decoded.id) && 
+                
+                  (<div className="single__comment__delete">
+                    <span onClick={() => DeleteComment(c._id)} title='Delete this comment'><RiDeleteBin5Line/></span>
+                  </div>)
+              }
+
   
                 <div className="single__comment__profile">
                 
@@ -180,6 +218,13 @@ const Comment = ({comment, setComment, author, socket}) => {
     }
 
 
+    {
+      spinner === true && 
+      <div className="modal">
+        <Skeleton type={"spinner"} />
+      </div>
+      /* Move the spinner  */
+    }
     
 
     </React.Fragment>
