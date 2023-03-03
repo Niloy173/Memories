@@ -199,7 +199,7 @@ input[type="file"] {
 }
 
 .card__item {
-  background: var(--color-bg-2);
+  background: #393053;
   color: var(--color-white);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: all 400ms ease;
@@ -275,7 +275,7 @@ input[type="file"] {
 }
 
 .card__filter .download:hover {
-  color: green;
+  color: var(--color-primary);
 }
 
 .card__filter .eye {
@@ -651,7 +651,7 @@ input[type="file"] {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: rgba(0, 0, 0, 0.5);
+  background: #4e31aa;
 }
 
 @media screen and (max-width: 468px) {

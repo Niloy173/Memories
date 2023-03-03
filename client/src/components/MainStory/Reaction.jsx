@@ -13,6 +13,7 @@ const Reaction = ({action, setAction, author, socket}) => {
 
   const {user} = useContext(AuthContext);
   const {activity, activityDispatch} = useContext(ActivityContext);
+  const [isClicked, setIsClicked] = useState(false);
   const decoded = JwtDecoder(user);
   const navigate = useNavigate();
   
@@ -24,11 +25,16 @@ const Reaction = ({action, setAction, author, socket}) => {
 
   async function CopyText(){
     try {
+        setIsClicked(true);
         await navigator.clipboard.writeText(window.location.href);
         ToastMsg("Link copied to clipboard", true);
     } catch (error) {
       console.log(`Failed to copy text: ${error}`);
     }
+  }
+
+  function onAnimationEnd(){
+    setIsClicked(false);
   }
 
   const makeRequest = async (type,state) => {
@@ -125,7 +131,8 @@ const Reaction = ({action, setAction, author, socket}) => {
     </div>
 
  
-    <div onClick={CopyText} title='copy to share it' className="icon__grid__share">
+    <div onClick={CopyText} title='copy to share it' 
+    className={isClicked?"icon__grid__share wobble-hor-bottom": "icon__grid__share"} onAnimationEnd={onAnimationEnd}>
         <IoIosShareAlt />
         <span>share</span>
 

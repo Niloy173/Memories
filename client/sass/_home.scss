@@ -1,5 +1,13 @@
 @use "variables" as v;
 
+// .App {
+//   background-color: #6213ea;
+//   background: radial-gradient(#db25ff 0.5px, transparent 0.5px),
+//     radial-gradient(#db25ff 0.5px, #6213ea 0.5px);
+//   background-size: 20px 20px;
+//   background-position: 0 0, 10px 10px;
+// }
+
 .login__register {
   &__reg {
     background: v.$color-5;

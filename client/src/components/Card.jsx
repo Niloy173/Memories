@@ -207,7 +207,7 @@ const Card = ({card, update=false, reFetch}) => {
     <article className='card__item'>
       
     <div className="card__img">
-      <img src={CardInformation.cardImage} alt="card_image" />
+      <img className='kenburns-top-left' src={CardInformation.cardImage} alt="card_image" />
 
       {
         update === true ?
@@ -260,7 +260,7 @@ const Card = ({card, update=false, reFetch}) => {
 
       <AiOutlineClose className='close' onClick={UpdateModal} />
 
-        <div className="update__modal">
+        <div className={updateStatus === true ? "update__modal fade-in": "update__modal"}>
          
             <form className="update__modal__form" onSubmit={handleSubmit}>
          

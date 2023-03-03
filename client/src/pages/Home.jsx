@@ -85,7 +85,7 @@ const Home = ({socket}) => {
           openForm ?
           (<div className="modal" >
             <AiOutlineClose className='close_form' onClick={() => setOpenForm(false)} />
-            <div className="form__enabled">
+            <div className={openForm === true ? "form__enabled fade-in": "form__enabled"}>
                 <MemoryCreationForm reFetch={reFetch} openForm={openForm} setOpenForm={setOpenForm}  />
             </div>
           </div>)  :

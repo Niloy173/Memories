@@ -26,9 +26,9 @@ import noPhoto from '../assets/7612643-nophoto.png';
       <AiOutlineClose className='close_img' onClick={closeImage} />
       
       
-        <img src={imageURL} alt="modal_image" className="modal__img" />
+        <img src={imageURL} alt="modal_image" className={imageURL ? "modal__img fade-in": "modal__img"} />
 
-        <div className="uploader__info">
+        <div className={imageURL ? "uploader__info fade-in": "uploader__info"}>
         
 
 

@@ -145,7 +145,8 @@ const Comment = ({comment, setComment, author, socket}) => {
 
       <AiOutlineClose title='close' className='close' onClick={closeComments} />
 
-      <motion.div layout className="modal__container all__comments">
+      <motion.div layout 
+      className={active === true ? "modal__container all__comments fade-in": "modal__container all__comments"}>
       
         <div className="comment__heading">
           <h3>All comments</h3>
