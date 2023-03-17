@@ -176,7 +176,8 @@ const ActivityReducer = (CurrentState, Action) => {
         activity: {
           ...CurrentState.activity,
           likes: [],
-          memories: []
+          dislikes: [],
+          memories: [],
         }
       }
 
