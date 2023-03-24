@@ -568,3 +568,124 @@
   font-size: 16px;
   margin-top: 2px;
 }
+
+// A shared modal design
+.SharedOption {
+  width: clamp(350px, 30% + 1vw, 500px);
+  border: 1px solid #140021;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 1.5rem;
+  background-color: beige;
+  height: max-content;
+  position: relative;
+
+  &__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 25px;
+    font-weight: 900;
+    color: #2c2c6c;
+    cursor: pointer;
+  }
+
+  &__header {
+    width: 100%;
+
+    h3 {
+      text-transform: uppercase;
+      color: #2c2c6c;
+      text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+.shared__social__container {
+  margin: 0.4rem 0;
+  position: relative;
+
+  .icon {
+    background: #989898;
+    color: black;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-content: center;
+    border-radius: 50%;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  .disabled {
+    background: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+  }
+}
+
+.social__platforms {
+  display: flex;
+  gap: 0.925rem;
+  width: fit-content;
+  padding: 0.33rem 0;
+  flex-wrap: wrap;
+  overflow-x: scroll;
+  z-index: -1;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .social__div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.144rem;
+
+    span {
+      font-size: 0.495rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.shared__input__container {
+  position: relative;
+
+  input {
+    padding: 1rem 0.5rem;
+    font-size: 0.966rem;
+    border-radius: 5px;
+    width: 100%;
+    border: 3px solid#ccc;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: fit-content;
+    padding: 0 1rem;
+    background: #36005a;
+    color: white;
+    border-radius: 5px;
+  }
+}
+
+.shared__line::after {
+  content: " ";
+  display: block;
+  width: 100%;
+  border-bottom: 0.5px dotted black;
+  opacity: 0.25;
+  margin-bottom: 1rem;
+}

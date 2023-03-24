@@ -59,7 +59,6 @@ const Home = ({socket}) => {
 
         <div className="cards__">
 
-          <AnimatePresence>
         
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           exit={{ opacity: 0 }} 
@@ -69,13 +68,13 @@ const Home = ({socket}) => {
               isloading ? [...Array(8)].map((_,i) => <Skeleton key={i} type="card" />) :
               data.length > 0 ? 
               data.map((card,i) => (
-                <Card key={i} card={card} />
+               <AnimatePresence key={i}><Card  card={card} /></AnimatePresence> 
               )): 'No data available'
             }
 
           </motion.div> 
           
-          </AnimatePresence>
+          
         
           </div>
 

@@ -90,7 +90,7 @@ const Memory = ({socket}) => {
           <div className="story__cover">
             <img src={data.photo} alt="main__story" title='Memory cover' />
 
-            <Reaction action={action} setAction={setAction} author={data.author.username} socket={socket}   />
+            <Reaction cover={data.photo} action={action} setAction={setAction} author={data.author.username} socket={socket}   />
             
           </div>
           

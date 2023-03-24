@@ -40,20 +40,20 @@ const Activity = () => {
       {
         isloading ? <Skeleton type={"custom"} /> : 
         
-        <AnimatePresence>
+        
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1}} exit={{ opacity: 0 }}
         className="all__cards">
         
         {data.length > 0 ? 
             
-          data.slice(FirstCardIndex, LastCardIndex).map((d,i) => <Card key={i} card={d} update={true} reFetch={reFetch}   />):
+          data.slice(FirstCardIndex, LastCardIndex).map((d,i) => <AnimatePresence key={i}><Card  card={d} update={true} reFetch={reFetch}   /></AnimatePresence>):
             
           <span className='no_data'>No Memory Found</span> }
       
         </motion.div>
 
-        </AnimatePresence>
+       
       }
 
       
