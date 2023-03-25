@@ -11,6 +11,7 @@ import ToastMsg from '../util/ToastMsg';
 
 /* quotes */
 import Quote from '../util/Quotes';
+import SEO from '../util/SeoSetup';
 
 const Likes = () => {
 
@@ -50,6 +51,9 @@ const Likes = () => {
   return (
     
     <div className="likes">
+
+      <SEO image={"https://res.cloudinary.com/di8xxkudu/image/upload/v1679747300/upload/favicon_gvihzp.jpg"} 
+      title="Likes Page" description={"Description of user liked content"} link={window.location.href} />
     
       <Header title={"Liked"}
       description={Quote[Math.floor(Math.random()*Quote.length)]} />

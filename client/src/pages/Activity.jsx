@@ -11,6 +11,7 @@ import Skeleton from '../skeleton/Skeleton';
 
 /* Quote */
 import Quote from '../util/Quotes';
+import SEO from '../util/SeoSetup';
 
 const Activity = () => {
 
@@ -31,6 +32,9 @@ const Activity = () => {
   return (
    
     <div className='activity'>
+
+      <SEO image={"https://res.cloudinary.com/di8xxkudu/image/upload/v1679747300/upload/favicon_gvihzp.jpg"}
+      title={"Activity Page"} description={"Describes the stories user created"} link={window.location.hrf} />
     
       <Header title={"Your"} 
       description={Quote[Math.floor(Math.random()*Quote.length)]} />

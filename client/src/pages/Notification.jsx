@@ -7,6 +7,7 @@ import { AuthContext } from '../context/Context'
 import useFetch from '../hooks/useFetch'
 import Skeleton from '../skeleton/Skeleton'
 import JwtDecoder from '../util/DecodeToken'
+import SEO from '../util/SeoSetup'
 import ToastMsg from '../util/ToastMsg'
 
 const Notification = () => {
@@ -89,6 +90,10 @@ const Notification = () => {
   return (
   
     <div className="notifications container">
+
+      <SEO image={"https://res.cloudinary.com/di8xxkudu/image/upload/v1679747300/upload/favicon_gvihzp.jpg"}
+      title={"Notification Page"} description={"Describes notifications of each user"}
+      link={window.location.href} />
     
       <div className="common__header">
       

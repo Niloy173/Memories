@@ -22,6 +22,7 @@ import { AuthContext } from './context/Context';
 
 /* socket */
 import { io } from "socket.io-client";
+import SEO from './util/SeoSetup';
 
 
 const App = () => {
@@ -48,6 +49,8 @@ const App = () => {
   return (
     
     <div className='App'>
+      <SEO image={"https://res.cloudinary.com/di8xxkudu/image/upload/v1679747300/upload/favicon_gvihzp.jpg"}
+      title={"Memories"} description={"Describes each individual memory or story"} link="/" />
       <Routes>
         <Route path='/' element={<Home socket={socket} />} />
         <Route path='/login' element={user ? <Home/>: <Login/>} />

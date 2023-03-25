@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import { Link, useLocation } from 'react-router-dom';
 
 import { AiOutlineFileText } from 'react-icons/ai';
@@ -13,6 +12,7 @@ import ToastMsg from '../util/ToastMsg';
 
 /* Quote */
 import Quote from '../util/Quotes';
+import SEO from '../util/SeoSetup';
 
 const Memory = ({socket}) => {
 
@@ -85,13 +85,7 @@ const Memory = ({socket}) => {
 
         <div className="main__story">
 
-        <Helmet>
-
-        <meta property="og:title" content={data.title} />
-        {/*<meta property="og:description" content="Description of my page" />*/}
-        <meta property="og:image" content={data.photo} />
-      
-        </Helmet>
+        <SEO title={data.title} description={data.description} image={data.photo} link={window.location.href} />
       
         <div className="main__story__cover">
           

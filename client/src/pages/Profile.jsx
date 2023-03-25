@@ -19,6 +19,7 @@ import ToastMsg from '../util/ToastMsg';
 import jwtDecode from 'jwt-decode';
 import { AuthContext } from '../context/Context';
 import Skeleton from '../skeleton/Skeleton';
+import SEO from '../util/SeoSetup';
 
 
 const Profile = () => {
@@ -143,6 +144,9 @@ const Profile = () => {
     <React.Fragment>
 
     <div className="profile__section container">
+
+      <SEO image={"https://res.cloudinary.com/di8xxkudu/image/upload/v1679747300/upload/favicon_gvihzp.jpg"}
+      title={"Profile page"} description={"Describes user profile informations"} link={window.location.href} />
     
       <div className="common__header">
       

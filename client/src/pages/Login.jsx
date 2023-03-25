@@ -9,6 +9,7 @@ import ToastMsg from '../util/ToastMsg';
 
 /* quotes */
 import Quote from '../util/Quotes';
+import SEO from '../util/SeoSetup';
 
 const Login = () => {
 
@@ -65,6 +66,9 @@ const Login = () => {
     
     <div className="login form__container">
     
+    <SEO image={"https://res.cloudinary.com/di8xxkudu/image/upload/v1679747300/upload/favicon_gvihzp.jpg"}
+    title={"Login Page"} description={"user login | Memories"} link={window.location.href} />
+
       <Link to={"/"} className='link'><h2 className='fs'>Memories</h2></Link>
       <motion.p layout className='form__container__subheader'>{Quote[Math.floor(Math.random() * Quote.length)]}</motion.p>
 
