@@ -119,6 +119,7 @@ article {
   color: var(--color-white);
   position: sticky;
   top: 10px;
+  z-index: -1; /* whenever eye icon of card pressed form shouldn't be able to click */
 }
 
 .form__ input {
