@@ -119,7 +119,6 @@ article {
   color: var(--color-white);
   position: sticky;
   top: 10px;
-  z-index: -1; /* whenever eye icon of card pressed form shouldn't be able to click */
 }
 
 .form__ input {
@@ -749,4 +748,8 @@ input[type="file"] {
   background: var(--color-primary-variant);
   color: #140021;
   font-weight: bold;
+}
+
+.hidden__z-index {
+  z-index: -1; /* whenever eye icon of card pressed form shouldn't be able to click */
 }

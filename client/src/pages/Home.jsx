@@ -13,6 +13,7 @@ import Skeleton from '../skeleton/Skeleton';
 const Home = ({socket}) => {
 
   const [openForm, setOpenForm] = useState(false);
+  const [openImageModal, setImageModal] = useState(false); // controlling form with custom class style
   const {search} = useLocation();
   const [data, isloading, reFetch] = useFetch("/api/memory"+search);
 
@@ -68,7 +69,7 @@ const Home = ({socket}) => {
               isloading ? [...Array(8)].map((_,i) => <Skeleton key={i} type="card" />) :
               data.length > 0 ? 
               data.map((card,i) => (
-               <AnimatePresence key={i}><Card  card={card} /></AnimatePresence> 
+               <AnimatePresence key={i}><Card  card={card} setImageModal={setImageModal} /></AnimatePresence> 
               )): 'No data available'
             }
 
@@ -79,6 +80,7 @@ const Home = ({socket}) => {
           </div>
 
         {/* Memory Creation Form */ }
+        {/* Form access should be disabled while modal is open */ }
         
         {
           openForm ?
@@ -88,7 +90,8 @@ const Home = ({socket}) => {
                 <MemoryCreationForm reFetch={reFetch} openForm={openForm} setOpenForm={setOpenForm}  />
             </div>
           </div>)  :
-          (<div className="form__">
+          
+          (<div className={openImageModal ? "form__ hidden__z-index": "form__"}>
                 <MemoryCreationForm reFetch={reFetch} />
             </div>)
 
@@ -102,7 +105,8 @@ const Home = ({socket}) => {
 
 
       {/* open modal button for tab or small screen  */}
-      <div onClick={() => setOpenForm(true)} className="memory__creation__btn">
+      {/* click should be forbidden while modal is open that's why we added hidden__z-index */}
+      <div onClick={() => setOpenForm(true)} className={openImageModal? "memory__creation__btn hidden__z-index":"memory__creation__btn"}>
         <BsArrowUpRight className='icon__memory'/>
         <p>
           {

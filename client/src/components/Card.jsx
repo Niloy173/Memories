@@ -14,7 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import { ActivityContext, AuthContext } from '../context/Context';
 import JwtDecoder from '../util/DecodeToken';
 
-const Card = ({card, update=false, reFetch}) => {
+const Card = ({card, setImageModal, update=false, reFetch}) => {
 
   const {user} = useContext(AuthContext);
   const {activityDispatch} = useContext(ActivityContext);
@@ -32,6 +32,11 @@ const Card = ({card, update=false, reFetch}) => {
   const [error, setError] = useState({});
   const [isSubmiting, setIsSubmiting] = useState(false);
   const navigate = useNavigate();
+
+  const setUpImageURL = (url) => {
+    setImageModal(prev => !prev);
+    setImageURL(url);
+  }
 
   const downloadPoster = async (imgURL) => {
 
@@ -221,7 +226,7 @@ const Card = ({card, update=false, reFetch}) => {
         <div>
           <HiDownload title='Download Image' className='download icon' onClick={() => downloadPoster(CardInformation.cardImage)} />
         </div>
-        <div><FiEye title='Full Image' className='eye' onClick={() => setImageURL(CardInformation.cardImage)} /></div>
+        <div><FiEye title='Full Image' className='eye' onClick={() => setUpImageURL(CardInformation.cardImage)} /></div>
       </div>)
 
 
@@ -251,7 +256,7 @@ const Card = ({card, update=false, reFetch}) => {
 
 
     {/* image modal */ 
-          imageURL && <Modal imageURL={imageURL} setImageURL={setImageURL} author={card.author} createdAt={card.createdAt} />
+          imageURL && <Modal setImageModal={setImageModal} imageURL={imageURL} setImageURL={setImageURL} author={card.author} createdAt={card.createdAt} />
     /* image modal */ }
 
     { /* for updating card */

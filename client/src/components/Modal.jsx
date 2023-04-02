@@ -4,20 +4,22 @@ import { AiOutlineClose } from 'react-icons/ai';
 /* no photo */
 import noPhoto from '../assets/7612643-nophoto.png';
 
-  const Modal = ({imageURL,setImageURL, author, createdAt}) => {
+  const Modal = ({setImageModal,imageURL,setImageURL, author, createdAt}) => {
 
     const CloseModalCheck = (e) => {
       
       if(e.target.className === 'modal'){
+        setImageModal(prev => !prev);
         setImageURL(null);
       }
     }
 
     const closeImage = (e) => {
     
+        setImageModal(prev => !prev);
         setImageURL(null);
         e.stopPropagation();
-      }
+    }
   
 
     return (
