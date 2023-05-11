@@ -2129,7 +2129,17 @@ button.disabled_btn {
   }
 }
 /* spinner */
-.spinner {
+.spinner__skeleton {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.spinner__skeleton .spinner {
   border: 12px solid #f3f3f3;
   border-top: 12px solid #ff7b02;
   border-radius: 50%;
@@ -2138,7 +2148,7 @@ button.disabled_btn {
   animation: spin 2s linear infinite;
 }
 @media (max-width: 43.74em) {
-  .spinner {
+  .spinner__skeleton .spinner {
     width: 80px;
     height: 80px;
   }
@@ -2152,6 +2162,25 @@ button.disabled_btn {
     transform: rotate(360deg);
   }
 }
+.no__image__found {
+  display: block;
+  width: 100%;
+  height: 250px;
+}
+
+.no__banner__found {
+  display: block;
+  width: 100%;
+  height: 500px;
+}
+
+.no__image__found img,
+.no__banner__found img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .notifications__container {
   display: flex;
   flex-direction: column;

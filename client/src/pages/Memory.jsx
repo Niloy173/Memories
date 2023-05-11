@@ -11,6 +11,7 @@ import Skeleton from '../skeleton/Skeleton';
 import ToastMsg from '../util/ToastMsg';
 
 /* Quote */
+import LazyImage from '../components/LazyLoad/LazyImage';
 import Quote from '../util/Quotes';
 import SEO from '../util/SeoSetup';
 
@@ -90,7 +91,8 @@ const Memory = ({socket}) => {
         <div className="main__story__cover">
           
           <div className="story__cover">
-            <img src={data.photo} alt="main__story" title='Memory cover' />
+           
+            <LazyImage alt={"main__story"} src={data.photo} loader={"bannerImage"} />
 
             <Reaction cover={data.photo} action={action} setAction={setAction} author={data.author.username} socket={socket}   />
             

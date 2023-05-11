@@ -1,4 +1,5 @@
 import React from 'react';
+import loadingImage from '../assets/imageLoading.png';
 
 const Skeleton = ({type}) => {
 
@@ -42,8 +43,29 @@ const Skeleton = ({type}) => {
 
   const Spinner = () => {
     return (
-      <div className="spinner"></div>
+      <div className='spinner__skeleton'>
+        <div className="spinner"></div>
+        <div>
+          <span className="custom__txt">Please wait ...</span>
+        </div>
+      </div>
     )
+  }
+
+  const ImageLoader = () => {
+    return (
+      <div className="no__image__found">
+        <img src={loadingImage} alt='not found' />
+      </div>
+    );
+  }
+
+  const BannerLoader = () => {
+    return (
+      <div className="no__banner__found">
+        <img src={loadingImage} alt='not found' />
+      </div>
+    );
   }
 
   const SingleMemory = () => {
@@ -94,6 +116,8 @@ const Skeleton = ({type}) => {
   if(type === "custom") return <Custom />;
   if(type === "memory") return <SingleMemory/>;
   if(type === "spinner") return <Spinner/>;
+  if(type === "loadingImage") return <ImageLoader/>;
+  if(type === "bannerImage") return <BannerLoader/>;
 }
 
 export default Skeleton;

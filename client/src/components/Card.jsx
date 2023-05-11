@@ -14,6 +14,8 @@ import { ToastContainer } from 'react-toastify';
 import { ActivityContext, AuthContext } from '../context/Context';
 import JwtDecoder from '../util/DecodeToken';
 
+import LazyImage from "../components/LazyLoad/LazyImage";
+
 const Card = ({card, setImageModal, update=false, reFetch}) => {
 
   const {user} = useContext(AuthContext);
@@ -212,7 +214,7 @@ const Card = ({card, setImageModal, update=false, reFetch}) => {
     <article className='card__item'>
       
     <div className="card__img">
-      <img className='kenburns-top-left' src={CardInformation.cardImage} alt="card_image" />
+      <LazyImage alt="card_image" src={CardInformation.cardImage} classname="kenburns-top-left" loader={"loadingImage"} />
 
       {
         update === true ?
